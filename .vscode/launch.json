@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EventureApplication<eventure>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.osayi.eventure.EventureApplication",
+            "projectName": "eventure",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

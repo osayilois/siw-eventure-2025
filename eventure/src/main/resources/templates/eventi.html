@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Eventure - Eventi</title>
+</head>
+<body>
+    <h1>Eventi disponibili</h1>
+
+    <a href="/eventi/nuovo">➕ Aggiungi un nuovo evento</a>
+
+    <ul>
+        <li th:each="evento : ${eventi}">
+            <b th:text="${evento.titolo}">Titolo</b> -
+            <span th:text="${evento.citta}">Città</span> -
+            <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span>
+            <!--modifica evento /-->
+            <a th:href="@{'/eventi/modifica/' + ${evento.id}}">Modifica</a>
+            <!--elimina evento /-->
+            <form th:action="@{'/eventi/elimina/' + ${evento.id}}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo evento?')">Elimina</button>
+            </form>
+
+        </li>
+    </ul>
+</body>
+</html>
