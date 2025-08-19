@@ -1,2 +1,40 @@
-<h1>Benvenuto (Anonimo)</h1>
-<a href="/login">Login</a>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8" />
+  <title>Eventure — Home</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+  <!-- header -->
+  <div th:replace="fragments/header :: header"></div>
+
+  <main class="container main">
+    <section class="hero">
+      <h1>Benvenuta su Eventure</h1>
+      <p>Scopri eventi locali, partecipa e condividi esperienze.</p>
+      <a class="btn big" th:href="@{/eventi}">Esplora eventi</a>
+    </section>
+
+    <section class="events-preview">
+      <h2>Eventi in evidenza</h2>
+      <!-- esempio: itera eventi se li passi dal controller -->
+      <div class="cards">
+        <div class="card">
+          <h3>Nome evento</h3>
+          <p>Breve descrizione...</p>
+          <a class="btn small" th:href="@{/eventi}">Dettagli</a>
+        </div>
+        <!-- qui verranno generate le card reali -->
+      </div>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <div th:replace="fragments/footer :: footer"></div>
+
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
+

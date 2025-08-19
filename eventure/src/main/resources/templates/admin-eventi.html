@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Eventi - Admin</title>
+</head>
+<body>
+    <h1>Gestione Eventi (Admin)</h1>
+
+    <a href="/admin/eventi/nuovo">➕ Aggiungi un nuovo evento</a>
+
+    <ul>
+        <li th:each="evento : ${eventi}">
+            <b th:text="${evento.titolo}">Titolo</b> - 
+            <span th:text="${evento.citta}">Città</span> - 
+            <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span> 
+
+            <!-- Modifica -->
+            <a th:href="@{'/admin/eventi/modifica/' + ${evento.id}}">✏️ Modifica</a>
+
+            <!-- Elimina -->
+            <form th:action="@{'/admin/eventi/elimina/' + ${evento.id}}" 
+                  method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo evento?')">🗑️ Elimina</button>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>

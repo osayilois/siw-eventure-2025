@@ -1,27 +1,24 @@
+<!-- src/main/resources/templates/admin/eventi.html -->
+
+<!-- PAGINA PUBBLICA EVENTI -->
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Eventure - Eventi</title>
+  <meta charset="UTF-8">
+  <title>Eventure - Gestione Eventi</title>
 </head>
 <body>
-    <h1>Eventi disponibili</h1>
+  <h1>Eventi (public)</h1>
 
-    <a href="/eventi/nuovo">➕ Aggiungi un nuovo evento</a>
-
-    <ul>
-        <li th:each="evento : ${eventi}">
-            <b th:text="${evento.titolo}">Titolo</b> -
-            <span th:text="${evento.citta}">Città</span> -
-            <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span>
-            <!--modifica evento /-->
-            <a th:href="@{'/eventi/modifica/' + ${evento.id}}">Modifica</a>
-            <!--elimina evento /-->
-            <form th:action="@{'/eventi/elimina/' + ${evento.id}}" method="post" style="display:inline;">
-                <button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo evento?')">Elimina</button>
-            </form>
-
-        </li>
-    </ul>
+  <ul>
+    <li th:each="evento : ${eventi}">
+      <b th:text="${evento.titolo}">Titolo</b> —
+      <span th:text="${evento.citta}">Città</span> —
+      <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span> —
+      <span th:text="${evento.categoria}">Categoria</span> —
+      <span th:text="${evento.prezzo}">Prezzo</span> €
+    </li>
+  </ul>
 </body>
 </html>
