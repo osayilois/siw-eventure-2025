@@ -1,51 +1,5 @@
-/* /* package com.osayi.eventure.repository;
-
-import org.springframework.data.repository.CrudRepository;
-
-import com.osayi.eventure.model.Event;
-
-public interface EventRepository extends CrudRepository<Event, Long> {
-    // puoi aggiungere metodi personalizzati qui in futuro
-}
- */
-
- // src/main/java/com/osayi/eventure/repository/EventRepository.java
+// src/main/java/com/osayi/eventure/repository/EventRepository.java
 /*package com.osayi.eventure.repository;
-
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.osayi.eventure.model.Event;
-
-
-public interface EventRepository extends JpaRepository<Event, Long> {
-
-     // Prende solo gli eventi segnati come "featured", ordinati per data decrescente
-    List<Event> findByFeaturedTrueOrderByDateDesc();
-
-    // Prende gli eventi in evidenza con pageable (comodo per limitare i risultati)
-    List<Event> findByFeaturedTrue(Pageable pageable);
-
-    // Eventi gratuiti (price = 0.0)
-    List<Event> findByPriceEquals(double price);
-
-    // Ricerca testo semplice sul nome o sulla descrizione (case insensitive)
-    List<Event> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);
-
-    // Cerca per location/parola nella location (es. "Roma")
-    List<Event> findByLocationContainingIgnoreCase(String location);
-
-    // Filtra per categoria (es. "Musica")
-    List<Event> findByCategoryIgnoreCase(String category);
-
-    // metodo combinato più avanzato si può aggiungere dopo con @Query/Specification
-}
- */
-
- // src/main/java/com/osayi/eventure/repository/EventRepository.java
-package com.osayi.eventure.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -70,3 +24,19 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     // Prossimi eventi (dopo una certa data/ora), ordinati dal più vicino
     List<Event> findByDataOraAfterOrderByDataOraAsc(LocalDateTime from);
 }
+ */
+
+package com.osayi.eventure.repository;
+
+import com.osayi.eventure.model.Event;        // <— IMPORT FONDAMENTALE
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface EventRepository extends JpaRepository<Event, Long> {
+    Page<Event> findByFeaturedTrue(Pageable pageable);
+    List<Event> findByFeaturedFalse(Sort sort);
+}
+

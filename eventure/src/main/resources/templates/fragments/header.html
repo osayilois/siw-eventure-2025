@@ -6,13 +6,8 @@
       <nav class="appbar">
         <div class="container">
           <!-- Brand: torna sempre alla home pubblica -->
-          <a class="brand" th:href="@{/eventi}">Eventure</a>
+          <a class="brand" th:href="@{/home}">Eventure</a>
 
-          <!-- (Tolti Eventi/Esplora) -->
-          <!-- <ul class="nav">
-            <li><a th:href="@{/eventi}">Eventi</a></li>
-            <li><a th:href="@{/eventi}">Esplora</a></li>
-          </ul> -->
 
           <div class="nav-right">
             <span sec:authorize="!isAuthenticated()">
@@ -24,7 +19,7 @@
               <span class="username">Ciao, <span sec:authentication="name">Utente</span></span>
               <a th:href="@{/user/home}" sec:authorize="hasRole('USER')" class="btn small">Dashboard</a>
               <!-- Admin → vai alla gestione eventi -->
-              <a th:href="@{/admin/eventi}" sec:authorize="hasRole('ADMIN')" class="btn small">Admin</a>
+              <!--<a th:href="@{/admin/eventi}" sec:authorize="hasRole('ADMIN')" class="btn small">Admin</a>-->
 
               <!-- Logout POST con CSRF -->
               <form th:action="@{/logout}" method="post" style="display:inline">
