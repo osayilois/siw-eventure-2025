@@ -5,6 +5,10 @@
     <title>Login - Eventure</title>
 </head>
 <body>
+
+    <!-- Header -->
+    <header th:replace="~{fragments/header :: header}"></header>
+    
     <h2>Login</h2>
 
     <form th:action="@{/login}" method="post">

@@ -5,6 +5,10 @@
     <title>Registrazione - Eventure</title>
 </head>
 <body>
+
+    <!-- Header -->
+    <header th:replace="~{fragments/header :: header}"></header>
+    
     <h2>Registrazione nuovo utente</h2>
 
     <form th:action="@{/register}" th:object="${user}" method="post">

@@ -5,6 +5,10 @@
   <title th:text="${titoloPagina} ?: 'Evento'">Evento</title>
 </head>
 <body>
+
+  <!-- Header -->
+    <header th:replace="~{fragments/header :: header}"></header>
+    
   <h1 th:text="${titoloPagina} ?: (${evento.id != null} ? 'Modifica Evento' : 'Nuovo Evento')">Evento</h1>
 
   <form th:action="@{${formAction}}" th:object="${evento}" method="post">
