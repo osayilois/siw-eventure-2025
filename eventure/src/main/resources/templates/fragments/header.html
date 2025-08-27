@@ -1,35 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <body>
-    <header th:fragment="header">
-      <nav class="appbar">
-        <div class="container">
-          <!-- Brand: torna sempre alla home pubblica -->
-          <a class="brand" th:href="@{/home}">Eventure</a>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<body>
+<header class="site-header" th:fragment="header">
+  <div class="site-header__inner">
+    <!-- colonna sinistra (vuota o futura nav) -->
+    <div></div>
 
+    <!-- brand centrale -->
+    <div class="site-header__brand">
+      <a th:href="@{/}" aria-label="Eventure home">EVENTURE</a>
+    </div>
 
-          <div class="nav-right">
-            <span sec:authorize="!isAuthenticated()">
-              <a th:href="@{/login}" class="btn small">Login</a>
-              <a th:href="@{/register}" class="btn small outline">Registrati</a>
-            </span>
-
-            <span sec:authorize="isAuthenticated()">
-              <span class="username">Ciao, <span sec:authentication="name">Utente</span></span>
-              <a th:href="@{/user/home}" sec:authorize="hasRole('USER')" class="btn small">Dashboard</a>
-              <!-- Admin → vai alla gestione eventi -->
-              <!--<a th:href="@{/admin/eventi}" sec:authorize="hasRole('ADMIN')" class="btn small">Admin</a>-->
-
-              <!-- Logout POST con CSRF -->
-              <form th:action="@{/logout}" method="post" style="display:inline">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                <button type="submit">Logout</button>
-              </form>
-            </span>
-          </div>
-        </div>
-      </nav>
-    </header>
-  </body>
+    <!-- azioni a destra -->
+    <nav class="site-header__actions">
+      <a class="btn-chip" th:href="@{/login}">Login</a>
+      <a class="btn-chip" th:href="@{/register}">Registrati</a>
+    </nav>
+  </div>
+</header>
+</body>
 </html>
