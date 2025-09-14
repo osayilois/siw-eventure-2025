@@ -9,10 +9,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
     Optional<User> findByUsernameIgnoreCase(String username);
 
-    // 👇 questo è quello che useremo nel service
     Optional<User> findByEmailIgnoreCaseOrUsernameIgnoreCase(String email, String username);
 
-    // utili per la registrazione
     boolean existsByEmailIgnoreCase(String email);
     boolean existsByUsernameIgnoreCase(String username);
+
+    // NEW: utile quando Facebook non fornisce l'email
+    Optional<User> findByProviderAndProviderId(String provider, String providerId);
 }
