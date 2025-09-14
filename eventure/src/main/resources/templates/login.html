@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
+
 <head>
   <meta charset="UTF-8">
   <title>Login - Eventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
 
-  <!-- RIMOSSO il fragment dell'header per evitare l'area alta ingombrante -->
-  <!-- Nav minimale (solo HTML) -->
+<body>
   <nav>
     <a th:href="@{/}">Eventure</a>
   </nav>
@@ -33,6 +32,13 @@
     <div th:if="${param.error}">
       <p>Credenziali errate. Riprova.</p>
     </div>
+
+    <p>
+      <a href="/oauth2/authorization/google">Accedi con Google</a> |
+      <a href="/oauth2/authorization/facebook">Accedi con Facebook</a>
+    </p>
+
   </main>
 </body>
+
 </html>
