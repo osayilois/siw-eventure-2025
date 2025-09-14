@@ -1,10 +1,19 @@
-/* HERO d’impatto in stile ALT: immagine piena + overlay tipografico */
+/* ===== HERO (full-bleed stile ALT) ===== */
+html, body { margin: 0; }               /* evita bande bianche */
+.impact__media { margin: 0; }            /* <figure> di default ha margin */
+
 .impact{
   position: relative;
-  min-height: clamp(60vh, 80vh, 92vh);
+  min-height: clamp(70vh, 85vh, 95vh);
   display: grid;
   place-items: center;
-  isolation: isolate; /* per gestire overlay */
+  isolation: isolate;
+  overflow: hidden;
+
+  /* full-bleed orizzontale centrato */
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .impact__media,
@@ -15,16 +24,20 @@
   height: 100%;
 }
 
+.impact__media img{
+  object-fit: cover;          /* riempie (ritaglio se serve) */
+  object-position: 42% 65%;   /* inquadra più platea */
+}
 
-/* Velo/grain/gradiente sopra l’immagine per leggibilità */
+/* overlay scuro per leggibilità del titolo */
 .impact::after{
   content:"";
   position:absolute; inset:0;
   background:
-    radial-gradient(80% 60% at 50% 40%, rgba(255,255,255,.0) 0%, rgba(0,0,0,.25) 70%),
-    linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.45) 80%);
+    radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.20) 0%, rgba(0,0,0,.32) 70%),
+    linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.45) 85%);
   mix-blend-mode: multiply;
-  z-index: 0;
+  z-index:0;
 }
 
 .impact__overlay{
@@ -35,150 +48,90 @@
   padding: 0 16px;
 }
 
-
-/* Titolo enorme, con serif italic di accento (Lora) */
+/* Titolo (display + accento) */
 .impact__title{
   margin: 0;
   font-family: var(--font-display);
   font-weight: 900;
   letter-spacing: -0.02em;
   line-height: .95;
-  font-size: clamp(2rem, 8vw, 6rem); /* scala fluida */
+  font-size: clamp(2rem, 8vw, 6rem);
 }
 .impact__title .accent{
   font-family: var(--font-accent);
   font-style: italic;
   font-weight: 600;
+
+  /* solo movimento soft (niente underline) */
+  position: relative;
+  display: inline-block;
+  transform-origin: 50% 60%;
+  animation: accentFloat 6s ease-in-out infinite;
+}
+@keyframes accentFloat{
+  0%,100% { transform: skewX(-6deg) translateY(0); }
+  50%     { transform: skewX(-6deg) translateY(-0.06em); }
 }
 
-/* Sezioni eventi */
+/* riduci motion per accessibilità */
+@media (prefers-reduced-motion: reduce){
+  .impact__title .accent{ animation: none; }
+}
+
+/* ===== Sezioni eventi (grids) ===== */
 .grid--featured{ grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 .grid--events  { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-
 @media (max-width: 480px){
   .grid--featured, .grid--events { grid-template-columns: 1fr; }
 }
 
-
-/* new code 1 */
-
-/* Header in overlay (solo in home) — niente spazio bianco */
+/* ===== Header trasparente in home + stile pulsanti bianchi ===== */
 .home .site-header{
-  position: fixed;     /* sovrapposto */
-  top:0; left:0; right:0;
+  position: fixed; top:0; left:0; right:0;
   background: transparent;
-  border-bottom-color: transparent;
+  border: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);  /* leggero stacco */
 }
 
-/* link e pill bianche finché l’header è trasparente */
-.home .site-header__brand a{ color: #fff; }
-.home .site-header .btn-chip{
-  border-color: rgba(255,255,255,.6);
+.home .site-header__brand a{ line-height: 1; }
+.home .brand__logo{
+  height: clamp(28px, 4.5vw, 44px);  /* logo più slim in home */
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.45));
+}
+
+/* pill bianche (login/registrati) più piccole */
+.home .site-header__inner{
+  padding-block: 6px;
+  gap: 8px;
+}
+.home .site-header__actions{ gap: 8px; }
+.home .btn-chip{
+  height: 32px;
+  padding: 0 12px;
+  font-size: .95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.6);
   background: rgba(255,255,255,.08);
   color: #fff;
 }
-.home .site-header .btn-chip:hover{
-  background: rgba(255,255,255,.22);
-  color: #fff;
+.home .btn-chip:hover{
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.65);
 }
 
-/* Più spazio sotto il titolo "Eventi in evidenza" */
+/* Margine sotto il titolo sezione */
 .section__title{ margin: 0 0 1.75rem; }
 
-/* very new code */
-
-/* --- fix spazi bianchi: reset margini UA --- */
-html, body { margin: 0; }
-.impact__media { margin: 0; }          /* <figure> di default ha margin: 1em 40px */
-
-/* --- hero full-bleed (come ALT) --- */
-.home .impact{
-  position: relative;
-  min-height: clamp(70vh, 85vh, 95vh);
-  display: grid; place-items: center;
-  overflow: hidden;
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
+/* Header nero trasparente in home */
+.home .site-header{
+  position: fixed; top:0; left:0; right:0;
+  z-index: 1000;
+  background: rgba(0,0,0,.72);                  /* ← intensità: .60–.80 a gusto */
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
 }
 
-/* immagine: riempi tutto l'hero; spostata leggermente su/sx */
-.home .impact__media,
-.home .impact__media img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.home .impact__media img{
-  object-fit: cover;            /* riempie; sì, ritaglia se necessario */
-  object-position: 42% 65%;     /* <-- più a SINISTRA (45%) e più in ALTO (22%) */
-}
-
-/* overlay per leggibilità */
-.home .impact::after{
-  content:""; position:absolute; inset:0;
-  background:
-    radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.20) 0%, rgba(0,0,0,.32) 70%),
-    linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.45) 85%);
-  mix-blend-mode: multiply; z-index:0;
-}
-
-/* EFFETTI HEADER E PAGINA */
-
-/* ===== Header: stessa UI, sfuma SUBITO allo scroll + Parallax hero (NO JS) ===== */
-@supports (animation-timeline: view()) {
-  /* timeline = l’hero */
-  .home .impact{
-    view-timeline-name: --hero;
-    view-timeline-axis: block;
-  }
-
-  /* HEADER: da trasparente a nero soft APPENA inizi a scorrere */
-  .home .site-header{
-    animation: headerFade linear both;
-    animation-timeline: --hero;
-    /* parte subito (cover 0%) e completa presto (cover 15%) */
-    animation-range: cover 0% cover 15%;
-  }
-  @keyframes headerFade{
-    0%{
-      background: rgba(0,0,0,0);
-      border-bottom-color: transparent;
-      backdrop-filter: none; -webkit-backdrop-filter: none;
-      box-shadow: none;
-    }
-    100%{
-      background: rgba(0,0,0,.72);
-      border-bottom-color: rgba(255,255,255,.08);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      box-shadow: 0 6px 18px rgba(0,0,0,.12);
-    }
-  }
-  /* Nota: lasciamo brand/pill bianchi così l’header “sembra” identico, solo più scuro */
-
-  /* HERO PARALLAX: leggera scala + drift verso il basso */
-  .home .impact__media img{
-    transform-origin: center;
-    will-change: transform;
-    animation: heroParallax linear both;
-    animation-timeline: --hero;
-    animation-range: cover 0% exit 100%;
-  }
-  @keyframes heroParallax{
-    0%   { transform: scale(1.02) translateY(0); }
-    100% { transform: scale(1.10) translateY(6vh); }
-  }
-
-  /* (soft) drift anche del titolo per dare profondità */
-  .home .impact__overlay{
-    will-change: transform;
-    animation: titleDrift linear both;
-    animation-timeline: --hero;
-    animation-range: cover 0% exit 100%;
-  }
-  @keyframes titleDrift{
-    0%   { transform: translateY(0); }
-    100% { transform: translateY(-4vh); }
-  }
-}
-
-/* Fallback per browser senza scroll-timeline: header resta trasparente */
-@supports not (animation-timeline: view()){
-  .home .site-header{ background: transparent; border: 0; }
-}

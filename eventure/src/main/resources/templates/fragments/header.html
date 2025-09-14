@@ -1,3 +1,5 @@
+// header.html
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
 <body>
@@ -8,15 +10,37 @@
 
     <!-- brand centrale -->
     <div class="site-header__brand">
-      <a th:href="@{/}" aria-label="Eventure home">EVENTURE</a>
-    </div>
+  <a th:href="@{/}" aria-label="Eventure">
+    <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo"/>
+  </a>
+</div>
 
-    <!-- azioni a destra -->
-    <nav class="site-header__actions">
-      <a class="btn-chip" th:href="@{/login}">Login</a>
-      <a class="btn-chip" th:href="@{/register}">Registrati</a>
-    </nav>
+<nav class="site-header__actions">
+  <!-- Ospite -->
+  <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/login}">Login</a>
+  <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/register}">Registrati</a>
+
+  <!-- Saluto utente loggato  -->
+  <span th:if="${currentUsername != null}" class="greeting">
+  Ciao,
+  <strong th:text="${#strings.contains(currentUsername,'@') 
+                    ? #strings.substringBefore(currentUsername,'@') 
+                    : currentUsername}">utente</strong>
+</span>
+
+<!-- Bottone "Il mio profilo" -->
+ <a th:if="${currentUsername != null}" class="btn-chip" th:href="@{/me}">
+  Il mio profilo
+</a>
+
+  <!-- Logout resta un bottone -->
+  <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post">
+    <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <button type="submit" class="btn-chip">Logout</button>
+  </form>
+</nav>
   </div>
 </header>
 </body>
 </html>
+

@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Registrazione - Eventure</title>
+  <meta charset="UTF-8">
+  <title>Registrazione - Eventure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-    <!-- Header -->
-    <header th:replace="~{fragments/header :: header}"></header>
-    
-    <h2>Registrazione nuovo utente</h2>
+  <!-- RIMOSSO il fragment dell'header per evitare l'area alta ingombrante -->
+  <nav>
+    <a th:href="@{/}">Eventure</a>
+  </nav>
+
+  <main>
+    <!-- Niente <h2> per evitare margini verticali: uso un <div> -->
+    <div><strong>Registrazione nuovo utente</strong></div>
 
     <form th:action="@{/register}" th:object="${user}" method="post">
-        <label>Username:</label><br>
-        <input type="text" th:field="*{username}" required/><br><br>
+      <label>Username:</label>
+      <input type="text" th:field="*{username}" required/>
 
-        <label>Email:</label><br>
-        <input type="email" th:field="*{email}" required/><br><br>
+      <label>Email:</label>
+      <input type="email" th:field="*{email}" required/>
 
-        <label>Password:</label><br>
-        <input type="password" th:field="*{password}" required/><br><br>
+      <label>Password:</label>
+      <input type="password" th:field="*{password}" required/>
 
-        <button type="submit">Registrati</button>
+      <button type="submit">Registrati</button>
     </form>
 
     <p>Hai già un account? <a th:href="@{/login}">Accedi</a></p>
+  </main>
 </body>
 </html>
