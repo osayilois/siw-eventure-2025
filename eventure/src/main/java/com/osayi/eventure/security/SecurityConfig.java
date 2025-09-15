@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 // --- AREE PUBBLICHE ---
-                .requestMatchers("/", "/home", "/login", "/register", "/error", "/favicon.ico").permitAll()
+                .requestMatchers("/", "/home", "/login", "/register", "/error", "/favicon.ico", "/forgot-password", "reset-password/**").permitAll()
                 // Eventi pubblici (lista + dettagli)
                 .requestMatchers(HttpMethod.GET, "/eventi", "/eventi/**").permitAll()
                 // Statici

@@ -5,40 +5,81 @@
   <meta charset="UTF-8">
   <title>Login - Eventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- preconnect per i Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- 1) fonts.css: definisce --font-sans / --font-display / --font-accent -->
+  <link rel="stylesheet" th:href="@{/css/fonts.css}">
+
+  <!-- 2) base.css: definisce palette, radius, shadow, ecc. -->
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+
+  <!-- 3) auth.css: layout 2 colonne per login -->
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
+
 </head>
 
-<body>
-  <nav>
-    <a th:href="@{/}">Eventure</a>
-  </nav>
+<body class="auth-page has-bg bg-3">
 
-  <main>
-    <!-- Usa <div> al posto di <h2> per evitare i margini di default dei titoli -->
-    <div><strong>Login</strong></div>
+  <main class="auth-card">
+    <!-- Colonna sinistra: welcome + logo -->
+    <aside class="auth-left">
+      <h2 class="welcome">Welcome!</h2>
 
-    <form th:action="@{/login}" method="post">
-      <label>Email o Username:</label>
-      <input type="text" name="username" placeholder="Inserisci email o username" required>
+      <div class="brand">
+        <img th:src="@{/img/brand/eventure-logo-dark.png}" alt="Eventure">
+      </div>
+
+      <p class="cta-bottom">
+        Non hai un account?
+        <a th:href="@{/register}">Registrati</a>
+      </p>
+    </aside>
+
+    <!-- Colonna destra: form -->
+    <section class="auth-right">
+      <h1 class="auth-title">Log in</h1>
+
+      <div th:if="${param.error}">
+        <p class="msg-error">Credenziali errate. Riprova.</p>
+      </div>
+
+      <form class="auth-form" th:action="@{/login}" method="post">
+        <div>
+          <label>Email o Username</label>
+          <input type="text" name="username" placeholder="Email o username" required>
+        </div>
+
+        <div>
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+
+        <button class="btn-primary" type="submit">Log in</button>
+      </form>
+
+      <div class="auth-sep">Oppure accedi con</div>
+
+      <div class="auth-providers">
+        <a class="btn-oauth google" th:href="@{/oauth2/authorization/google}">
+          <img class="ico" th:src="@{/img/icons/google-logo.png}" alt="" aria-hidden="true">
+          <span>Google</span>
+        </a>
+
+        <a class="btn-oauth facebook" th:href="@{/oauth2/authorization/facebook}">
+          <img class="ico" th:src="@{/img/icons/facebook-logo.png}" alt="" aria-hidden="true">
+          <span>Facebook</span>
+        </a>
+      </div>
 
 
-      <label>Password:</label>
-      <input type="password" name="password" placeholder="Inserisci la tua password" required>
+      <div class="auth-meta">
+        <a th:href="@{/forgot-password}">Password dimenticata?</a>
+      </div>
 
-      <button type="submit">Accedi</button>
-    </form>
-
-    <p>Non hai un account? <a th:href="@{/register}">Registrati</a></p>
-
-    <div th:if="${param.error}">
-      <p>Credenziali errate. Riprova.</p>
-    </div>
-
-    <p>
-      <a href="/oauth2/authorization/google">Accedi con Google</a> |
-      <a href="/oauth2/authorization/facebook">Accedi con Facebook</a>
-    </p>
-
+    </section>
   </main>
+
 </body>
 
 </html>

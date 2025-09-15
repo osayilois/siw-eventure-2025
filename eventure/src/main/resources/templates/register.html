@@ -5,42 +5,78 @@
   <meta charset="UTF-8">
   <title>Registrazione - Eventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- preconnect per i Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- 1) fonts.css: definisce --font-sans / --font-display / --font-accent -->
+  <link rel="stylesheet" th:href="@{/css/fonts.css}">
+
+  <!-- 2) base.css: definisce palette, radius, shadow, ecc. -->
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+
+  <!-- 3) auth.css: layout 2 colonne per register -->
+  <link rel="stylesheet" th:href="@{/css/auth.css}">
+
+
 </head>
 
-<body>
+<body class="auth-page has-bg bg-3">
 
-  <!-- RIMOSSO il fragment dell'header per evitare l'area alta ingombrante -->
-  <nav>
-    <a th:href="@{/}">Eventure</a>
-  </nav>
+  <main class="auth-card">
+    <!-- Colonna sinistra: welcome + logo + link a login -->
+    <aside class="auth-left">
+      <h2 class="welcome">Welcome!</h2>
 
-  <main>
-    <!-- Niente <h2> per evitare margini verticali: uso un <div> -->
-    <div><strong>Registrazione nuovo utente</strong></div>
+      <div class="brand">
+        <img th:src="@{/img/brand/eventure-logo-dark.png}" alt="Eventure">
+      </div>
 
-    <form th:action="@{/register}" th:object="${user}" method="post">
-      <label>Username:</label>
-      <input type="text" th:field="*{username}" required />
+      <p class="cta-bottom">
+        Hai già un account?
+        <a th:href="@{/login}">Accedi</a>
+      </p>
+    </aside>
 
-      <label>Email:</label>
-      <input type="email" th:field="*{email}" required />
+    <!-- Colonna destra: form registrazione -->
+    <section class="auth-right">
+      <h1 class="auth-title">Create account</h1>
 
-      <label>Password:</label>
-      <input type="password" th:field="*{password}" required />
+      <form class="auth-form" th:action="@{/register}" th:object="${user}" method="post">
+        <div>
+          <label>Username</label>
+          <input type="text" th:field="*{username}" placeholder="Scegli uno username" required />
+        </div>
 
-      <button type="submit">Registrati</button>
-    </form>
+        <div>
+          <label>Email</label>
+          <input type="email" th:field="*{email}" placeholder="La tua email" required />
+        </div>
 
-    <p>Oppure registrati con</p>
-    <p>
-      <a th:href="@{/oauth2/authorization/google}">Google</a>
-      &nbsp;|&nbsp;
-      <a th:href="@{/oauth2/authorization/facebook}">Facebook</a>
-    </p>
+        <div>
+          <label>Password</label>
+          <input type="password" th:field="*{password}" placeholder="Crea una password" required />
+        </div>
 
+        <button class="btn-primary" type="submit">Registrati</button>
+      </form>
 
-    <p>Hai già un account? <a th:href="@{/login}">Accedi</a></p>
+      <div class="auth-sep">Oppure registrati con</div>
+
+      <div class="auth-providers">
+        <a class="btn-oauth google" th:href="@{/oauth2/authorization/google}">
+          <img class="ico" th:src="@{/img/icons/google-logo.png}" alt="" aria-hidden="true">
+          <span>Google</span>
+        </a>
+
+        <a class="btn-oauth facebook" th:href="@{/oauth2/authorization/facebook}">
+          <img class="ico" th:src="@{/img/icons/facebook-logo.png}" alt="" aria-hidden="true">
+          <span>Facebook</span>
+        </a>
+      </div>
+
+    </section>
   </main>
+
 </body>
 
 </html>
