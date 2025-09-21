@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Account</title>
+</head>
+
+<body>
+    <header>
+        <img th:src="@{/img/default-avatar.jpg}" alt="avatar" width="64" height="64">
+
+
+        <div>
+            <h2 th:text="${me.username}">username</h2>
+            <p th:text="${me.email}">email@example.com</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#tickets">Biglietti</a> |
+        <a href="#likes">Preferiti</a> |
+
+        <!-- Link alla pagina impostazioni -->
+        <a th:href="@{/account/settings}">Impostazioni</a>
+    </nav>
+
+    <section id="tickets">
+        <h3>Biglietti</h3>
+        <p>Nessun biglietto (placeholder).</p>
+    </section>
+
+    <section id="likes">
+        <h3>Preferiti</h3>
+        <p>Nessun preferito (placeholder).</p>
+    </section>
+
+</body>
+
+</html>

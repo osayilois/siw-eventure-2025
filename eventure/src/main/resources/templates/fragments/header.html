@@ -1,46 +1,48 @@
-// header.html
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
+
 <body>
-<header class="site-header" th:fragment="header">
-  <div class="site-header__inner">
-    <!-- colonna sinistra (vuota o futura nav) -->
-    <div></div>
+  <header class="site-header" th:fragment="header">
+    <div class="site-header__inner">
 
-    <!-- brand centrale -->
-    <div class="site-header__brand">
-  <a th:href="@{/}" aria-label="Eventure">
-    <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo"/>
-  </a>
-</div>
+      <!-- colonna sinistra (vuota o futura nav) -->
+      <div></div>
 
-<nav class="site-header__actions">
-  <!-- Ospite -->
-  <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/login}">Login</a>
-  <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/register}">Registrati</a>
+      <!-- brand centrale -->
+      <div class="site-header__brand">
+        <a th:href="@{/}" aria-label="Eventure">
+          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo" />
+        </a>
+      </div>
 
-  <!-- Saluto utente loggato  -->
-  <span th:if="${currentUsername != null}" class="greeting">
-  Ciao,
-  <strong th:text="${#strings.contains(currentUsername,'@') 
+      <nav class="site-header__actions">
+        <!-- Ospite -->
+        <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/login}">Login</a>
+        <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/register}">Registrati</a>
+
+        <!-- Saluto utente loggato  -->
+        <span th:if="${currentUsername != null}" class="greeting">
+          Ciao,
+          <strong th:text="${#strings.contains(currentUsername,'@') 
                     ? #strings.substringBefore(currentUsername,'@') 
                     : currentUsername}">utente</strong>
-</span>
+        </span>
 
-<!-- Bottone "Il mio profilo" -->
- <a th:if="${currentUsername != null}" class="btn-chip" th:href="@{/me}">
-  Il mio profilo
-</a>
+        <!-- SOLO ADMIN: Gestisci eventi -->
+        <a th:if="${isAdmin}" class="btn-chip" th:href="@{/admin}">Dashboard Admin</a>
 
-  <!-- Logout resta un bottone -->
-  <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post">
-    <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-    <button type="submit" class="btn-chip">Logout</button>
-  </form>
-</nav>
-  </div>
-</header>
+        <!-- UTENTE AUTENTICATO NON-ADMIN: Il mio profilo -->
+        <a th:if="${!isAdmin and isAuthenticated}" class="btn-chip" th:href="@{/account}">Il mio profilo</a>
+
+
+        <!-- Bottone di Logout -->
+        <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post">
+          <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+          <button type="submit" class="btn-chip">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
 </body>
-</html>
 
+</html>

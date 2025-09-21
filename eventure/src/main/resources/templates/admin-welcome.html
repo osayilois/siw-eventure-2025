@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome, admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+</head>
+
+<body class="admin">
+    <header>
+        <!-- Link a Eventure (home pubblica) -->
+        <a th:href="@{/home}"><strong>Eventure</strong></a>
+    </header>
+
+    <main class="dash">
+        <h1>Welcome, admin</h1>
+        <p>Seleziona un'azione</p>
+
+        <section class="cards">
+            <a class="card card--teal" th:href="@{/admin/eventi/nuovo}">
+                <div class="card__title">Aggiungi evento</div>
+                <div class="card__cta">Nuovo</div>
+            </a>
+
+            <a class="card card--blue" th:href="@{/admin/home}">
+                <div class="card__title">Gestisci eventi</div>
+                <div class="card__cta">Apri</div>
+            </a>
+        </section>
+    </main>
+</body>
+
+</html>

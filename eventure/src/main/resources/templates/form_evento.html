@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
+
 <head>
   <meta charset="UTF-8">
   <title th:text="${titoloPagina} ?: 'Evento'">Evento</title>
 </head>
+
 <body>
 
   <!-- Header -->
-    <header th:replace="~{fragments/header :: header}"></header>
-    
+  <header>
+    <a th:href="@{/admin}">← Dashboard Admin</a>
+    &nbsp;|&nbsp;
+    <a th:href="@{/home}"><strong>Eventure</strong></a>
+  </header>
+
   <h1 th:text="${titoloPagina} ?: (${evento.id != null} ? 'Modifica Evento' : 'Nuovo Evento')">Evento</h1>
 
   <form th:action="@{${formAction}}" th:object="${evento}" method="post">
+    <!-- CSRF -->
+    <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <label>Titolo:</label><br>
     <input type="text" th:field="*{titolo}" required /><br>
@@ -28,8 +36,12 @@
     <label>Data e ora:</label><br>
     <input type="datetime-local" th:field="*{dataOra}" required /><br><br>
 
+    <!-- Categoria selezionabile -->
     <label>Categoria:</label><br>
-    <input type="text" th:field="*{categoria}" placeholder="Musica, Cibo, Sport..." /><br><br>
+    <select th:field="*{categoria}" required>
+      <option value="" disabled th:selected="${#strings.isEmpty(evento.categoria)}">Seleziona…</option>
+      <option th:each="c : ${categorie}" th:value="${c}" th:text="${c}">Categoria</option>
+    </select><br><br>
 
     <label>Prezzo (€):</label><br>
     <input type="number" step="0.01" min="0" th:field="*{prezzo}" /><br><br>
@@ -46,6 +58,9 @@
     <button type="submit">Salva</button>
   </form>
 
-  <p><a href="/admin/eventi">⬅ Torna alla lista</a></p>
+  <p>
+    <a th:href="@{/admin/home}">⬅ Torna alla lista</a>
+  </p>
 </body>
+
 </html>

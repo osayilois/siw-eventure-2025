@@ -4,8 +4,17 @@ package com.osayi.eventure.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
@@ -29,13 +38,14 @@ public class Event {
 
     @NotNull
     @Column(name = "data_ora")
+    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dataOra;
 
     @NotBlank
     private String indirizzo;
 
     @NotBlank
-    private String categoria; // es: Musica, Cibo, Sport
+    private String categoria = "Altro"; // es: Musica, Cibo, Sport
 
     @PositiveOrZero
     @Column(name = "prezzo", nullable = false)

@@ -16,7 +16,6 @@ public class SecurityConfig {
     private final AuthSuccessHandler authSuccessHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    // 👉 Constructor injection: Spring passa i bean qui
     public SecurityConfig(AuthSuccessHandler authSuccessHandler,
                           CustomOAuth2UserService customOAuth2UserService) {
         this.authSuccessHandler = authSuccessHandler;
@@ -28,11 +27,16 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 // --- AREE PUBBLICHE ---
-                .requestMatchers("/", "/home", "/login", "/register", "/error", "/favicon.ico", "/forgot-password", "reset-password/**").permitAll()
+                .requestMatchers(
+                        "/", "/home", "/login", "/register", "/error", "/favicon.ico",
+                        "/forgot-password", "/reset-password/**" 
+                ).permitAll()
+
                 // Eventi pubblici (lista + dettagli)
                 .requestMatchers(HttpMethod.GET, "/eventi", "/eventi/**").permitAll()
-                // Statici
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/webjars/**").permitAll()
+
+                // Statici (css/js/img + upload avatar locali)
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/img/**", "/webjars/**", "/uploads/**").permitAll()
 
                 // --- ADMIN ---
                 .requestMatchers("/eventi/nuovo", "/eventi/modifica/**", "/eventi/elimina/**", "/admin/**")
@@ -40,6 +44,12 @@ public class SecurityConfig {
 
                 // --- USER ---
                 .requestMatchers("/user/**").hasRole("USER")
+
+                // --- caricamento avatar in locale ---
+                .requestMatchers("/uploads/**").permitAll()
+
+                // --- ACCOUNT (nuove rotte profilo + API) ---
+                .requestMatchers("/account","/account/**", "/api/account/**").hasRole("USER")
 
                 // resto protetto
                 .anyRequest().authenticated()
@@ -50,14 +60,15 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .successHandler(authSuccessHandler)
+                .successHandler(authSuccessHandler) 
                 .permitAll()
             )
 
             // OAuth2 (Google + Facebook)
             .oauth2Login(oauth -> oauth
                 .loginPage("/login")
-                .userInfoEndpoint(u -> u.userService(customOAuth2UserService)) // <-- qui il service
+                .userInfoEndpoint(u -> u.userService(customOAuth2UserService))
+                // Se vuoi il redirect fisso su /account, spostalo nel tuo AuthSuccessHandler
                 .defaultSuccessUrl("/", false)
             )
 
@@ -67,9 +78,10 @@ public class SecurityConfig {
                 .permitAll()
             )
 
-            // H2 console in dev
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"));
+            // CSRF: escludi le API REST (inclusi upload avatar)
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/api/**"));
 
+        // H2 console in dev
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
 
         return http.build();

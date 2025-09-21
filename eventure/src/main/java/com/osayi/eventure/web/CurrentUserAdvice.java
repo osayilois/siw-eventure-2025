@@ -11,4 +11,6 @@ public class CurrentUserAdvice {
   public String currentUsername(Authentication auth) {
     return (auth != null) ? auth.getName() : null; // null se non loggato
   }
+
+  
 }
