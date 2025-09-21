@@ -8,27 +8,40 @@
     <link th:href="@{/css/admin.css}" rel="stylesheet">
 </head>
 
-<body class="admin">
-    <header>
-        <!-- Link a Eventure (home pubblica) -->
-        <a th:href="@{/home}"><strong>Eventure</strong></a>
+<body class="admin admin-welcome">
+
+
+    <!-- SOLO logo centrale (inline, niente frammenti) -->
+    <header class="site-header">
+        <div class="site-header__inner site-header__inner--solo">
+            <div aria-hidden="true"></div>
+            <div class="site-header__brand">
+                <a th:href="@{/home}" aria-label="Eventure">
+                    <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo">
+                </a>
+            </div>
+            <nav class="site-header__actions"></nav>
+        </div>
     </header>
 
-    <main class="dash">
-        <h1>Welcome, admin</h1>
-        <p>Seleziona un'azione</p>
+    <main class="dash dash--center">
+        <section class="dash__intro">
+            <h1>Welcome, admin</h1>
+            <p>Seleziona un'azione</p>
+        </section>
 
         <section class="cards">
-            <a class="card card--teal" th:href="@{/admin/eventi/nuovo}">
+            <a class="card card--teal card--center" th:href="@{/admin/eventi/nuovo}">
                 <div class="card__title">Aggiungi evento</div>
                 <div class="card__cta">Nuovo</div>
             </a>
 
-            <a class="card card--blue" th:href="@{/admin/home}">
+            <a class="card card--blue card--center" th:href="@{/admin/home}">
                 <div class="card__title">Gestisci eventi</div>
                 <div class="card__cta">Apri</div>
             </a>
         </section>
+
     </main>
 </body>
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.osayi.eventure.model.Event;
 import com.osayi.eventure.repository.EventRepository;
@@ -30,18 +31,30 @@ public class AdminEventController {
         return "admin-welcome"; // templates/admin-welcome.html
     }
 
-    // /admin/eventi → alias per compatibilità (va bene tenerlo)
+    // /admin/eventi → alias per compatibilità
     @GetMapping("/eventi")
     public String adminEventiRedirect() {
         return "redirect:/admin/home";
     }
 
-    // HOMEPAGE ADMIN: lista eventi
+    /* ---------------- Gestione eventi + ricerca ---------------- */
+
+    // Lista eventi con ricerca per titolo (?q=...)
     @GetMapping("/home")
-    public String adminHome(Model model) {
-        model.addAttribute("eventi", eventRepository.findAll());
-        return "admin-eventi";
+    public String adminHome(
+            @RequestParam(name = "q", required = false) String q,
+            Model model) {
+
+        final List<Event> eventi = (q == null || q.isBlank())
+                ? eventRepository.findAll()
+                : eventRepository.findByTitoloContainingIgnoreCase(q); // <-- assicurati che esista nel repository
+
+        model.addAttribute("eventi", eventi);
+        model.addAttribute("query", q); // per prefilling della searchbar
+        return "admin-eventi"; // templates/admin-eventi.html
     }
+
+    /* ---------------- CRUD ---------------- */
 
     // FORM CREAZIONE NUOVO EVENTO
     @GetMapping("/eventi/nuovo")
@@ -86,21 +99,19 @@ public class AdminEventController {
     }
 
     /* --------- Opzioni per il <select> delle categorie ---------- */
-
-@ModelAttribute("categorie")
-public List<String> categorie() {
-    return List.of(
-        "Concerto",
-        "Festival",
-        "Teatro",
-        "Mostra",
-        "Conferenza",
-        "Cinema",
-        "Awards Show",
-        "Workshop",
-        "Sport",
-        "Stand-up"
-    );
-}
-
+    @ModelAttribute("categorie")
+    public List<String> categorie() {
+        return List.of(
+            "Concerto",
+            "Festival",
+            "Teatro",
+            "Mostra",
+            "Conferenza",
+            "Cinema",
+            "Awards Show",
+            "Workshop",
+            "Sport",
+            "Stand-up"
+        );
+    }
 }

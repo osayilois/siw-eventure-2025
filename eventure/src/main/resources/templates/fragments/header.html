@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<!-- src/main/resources/templates/fragments/header.html -->
 
-<body>
-  <header class="site-header" th:fragment="header">
+<th:block th:fragment="header_full">
+  <header class="site-header">
     <div class="site-header__inner">
-
-      <!-- colonna sinistra (vuota o futura nav) -->
       <div></div>
 
-      <!-- brand centrale -->
       <div class="site-header__brand">
-        <a th:href="@{/}" aria-label="Eventure">
-          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo" />
+        <a th:href="@{/home}" aria-label="Eventure">
+          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo">
         </a>
       </div>
 
       <nav class="site-header__actions">
-        <!-- Ospite -->
         <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/login}">Login</a>
         <a class="btn-chip" th:if="${currentUsername == null}" th:href="@{/register}">Registrati</a>
 
-        <!-- Saluto utente loggato  -->
         <span th:if="${currentUsername != null}" class="greeting">
           Ciao,
           <strong th:text="${#strings.contains(currentUsername,'@') 
@@ -28,21 +22,35 @@
                     : currentUsername}">utente</strong>
         </span>
 
-        <!-- SOLO ADMIN: Gestisci eventi -->
         <a th:if="${isAdmin}" class="btn-chip" th:href="@{/admin}">Dashboard Admin</a>
-
-        <!-- UTENTE AUTENTICATO NON-ADMIN: Il mio profilo -->
         <a th:if="${!isAdmin and isAuthenticated}" class="btn-chip" th:href="@{/account}">Il mio profilo</a>
 
-
-        <!-- Bottone di Logout -->
-        <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post">
+        <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post" class="logout-form">
           <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <button type="submit" class="btn-chip">Logout</button>
         </form>
       </nav>
     </div>
   </header>
-</body>
+</th:block>
 
-</html>
+<th:block th:fragment="header_logo_logout">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div></div>
+
+      <div class="site-header__brand">
+        <a th:href="@{/home}" aria-label="Eventure">
+          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo">
+        </a>
+      </div>
+
+      <nav class="site-header__actions">
+        <form th:if="${currentUsername != null}" th:action="@{/logout}" method="post" class="logout-form">
+          <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+          <button type="submit" class="btn-chip">Logout</button>
+        </form>
+      </nav>
+    </div>
+  </header>
+</th:block>

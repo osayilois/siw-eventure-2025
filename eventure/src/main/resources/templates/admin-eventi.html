@@ -6,46 +6,94 @@
   <title>Gestione Eventi - Admin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link th:href="@{/css/admin.css}" rel="stylesheet">
+  <!-- il CSS dedicato lo aggiungeremo dopo -->
+  <link th:href="@{/css/gestione-eventi.css}" rel="stylesheet">
 </head>
 
-<body>
-  <!-- HEADER -->
-  <header>
-    <a th:href="@{/admin}" aria-label="Dashboard Admin">← Dashboard Admin</a>
-    &nbsp;|&nbsp;
-    <a th:href="@{/home}" aria-label="Eventure Home"><strong>Eventure</strong></a>
+<body class="admin admin-manage">
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div></div>
+      <div class="site-header__brand">
+        <a th:href="@{/home}" aria-label="Eventure">
+          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo" />
+        </a>
+      </div>
+      <nav class="site-header__actions">
+        <a class="btn-chip" th:href="@{/admin}">Dashboard</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <!-- Azione rapida -->
-    <p>
-      <a th:href="@{/admin/eventi/nuovo}">➕ Aggiungi un nuovo evento</a>
-    </p>
+  <!-- ... resto della pagina ... -->
+</body>
 
-    <!-- Titolo -->
-    <h1>Gestione Eventi (Admin)</h1>
 
-    <!-- Lista eventi -->
-    <ul>
-      <li th:each="evento : ${eventi}">
-        <b th:text="${evento.titolo}">Titolo</b>
-        · <span th:text="${evento.citta}">Città</span>
-        · <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span>
+<main class="manage">
+  <!-- Testata: titolo + azioni -->
+  <div class="manage__head">
+    <h1>Gestione eventi</h1>
 
-        <span th:if="${evento.categoria != null}">
-          · <em th:text="${evento.categoria}">Categoria</em>
-        </span>
+    <div class="manage__tools">
+      <!-- Ricerca per titolo (server-side, GET /admin/home?q=...) -->
+      <form th:action="@{/admin/home}" method="get" role="search" class="searchbar">
+        <input type="search" name="q" placeholder="Cerca per titolo…" th:value="${query}">
+        <button type="submit">Cerca</button>
+        <a th:href="@{/admin/home}" aria-label="Pulisci">Pulisci</a>
+      </form>
 
-        · <a th:href="@{'/admin/eventi/modifica/' + ${evento.id}}">✏️ Modifica</a>
+      <a class="btn" th:href="@{/admin/eventi/nuovo}">Aggiungi nuovo evento</a>
+    </div>
+  </div>
 
-        <form th:action="@{'/admin/eventi/elimina/' + ${evento.id}}" method="post" style="display:inline">
-          <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <button type="submit" onclick="return confirm('Sei sicuro di voler eliminare questo evento?')">🗑️
-            Elimina</button>
-        </form>
-      </li>
-    </ul>
-  </main>
+  <!-- Conteggio risultati -->
+  <p th:if="${eventi != null}">
+    <strong th:text="${#lists.size(eventi)}">0</strong> risultati
+    <span th:if="${query != null and !#strings.isEmpty(query)}">per "<em th:text="${query}">q</em>"</span>
+  </p>
+
+  <!-- Tabella eventi -->
+  <table>
+    <thead>
+      <tr>
+        <th>Titolo</th>
+        <th>Città</th>
+        <th>Data</th>
+        <th>Categoria</th>
+        <th>Prezzo</th>
+        <th>Posti</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- Stato vuoto -->
+      <tr th:if="${#lists.isEmpty(eventi)}">
+        <td colspan="7"><em>Nessun evento trovato.</em></td>
+      </tr>
+
+      <!-- Righe -->
+      <tr th:each="e : ${eventi}">
+        <td><strong th:text="${e.titolo}">Titolo</strong></td>
+        <td th:text="${e.citta}">Città</td>
+        <td th:text="${#temporals.format(e.dataOra, 'dd/MM/yyyy HH:mm')}">Data</td>
+        <td th:text="${e.categoria}">Categoria</td>
+        <td th:text="${e.prezzo != null ? '€ ' + #numbers.formatDecimal(e.prezzo, 1, 'COMMA', 2, 'POINT') : '—'}">€
+          0,00</td>
+        <td th:text="${e.postiDisponibili != null ? e.postiDisponibili : '—'}">—</td>
+        <td>
+          <a th:href="@{'/admin/eventi/modifica/' + ${e.id}}">Modifica</a>
+
+          <form th:action="@{'/admin/eventi/elimina/' + ${e.id}}" method="post" style="display:inline"
+            onsubmit="return confirm('Eliminare definitivamente questo evento?');">
+            <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit">Elimina</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</main>
 </body>
 
 </html>

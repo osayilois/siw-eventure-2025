@@ -1,0 +1,518 @@
+/* ========= Admin UI – Dashboard + shared ========= */
+:root {
+  --bg: #f6f2ea;
+  --ink: #0b0b0b;
+  --muted: #6b6b6b;
+  --radius: 24px;
+  --shadow: 0 12px 28px rgba(0, 0, 0, .10);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, .08);
+  --purple: #5b2a72;
+  --teal: #2e8c95;
+  --blue: #06385a;
+  --green: #3b5633;
+  --black: #111;
+  --white: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body.admin,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ===== Header (stile home) ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.site-header--solid {
+  background: #0b0b0b;
+  backdrop-filter: none;
+}
+
+.site-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 18px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+/* === SOLO LOGO: centra DAVVERO il brand === */
+.site-header__inner--solo {
+  grid-template-columns: 1fr;
+  /* passa a 1 colonna */
+  justify-items: center;
+  /* centra gli elementi nella cella */
+}
+
+.site-header__inner--solo> :first-child {
+  display: none;
+}
+
+/* nasconde col sx */
+.site-header__inner--solo .site-header__actions {
+  display: none !important;
+}
+
+/* nasconde dx */
+
+.site-header__brand {
+  display: flex;
+  justify-content: center;
+}
+
+.brand__logo {
+  height: 36px;
+  display: block;
+  cursor: pointer;
+}
+
+.site-header__actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .10);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, .14);
+  transition: background .2s, transform .15s;
+}
+
+.btn-chip:hover {
+  background: rgba(255, 255, 255, .18);
+  transform: translateY(-1px);
+}
+
+.logout-form {
+  display: inline;
+  margin: 0;
+}
+
+@media (max-width:640px) {
+  .brand__logo {
+    height: 30px;
+  }
+
+  .site-header__inner {
+    gap: 8px;
+    padding: 8px 12px;
+  }
+
+  .btn-chip {
+    padding: 7px 10px;
+    font-size: 14px;
+  }
+}
+
+/* ===== Dashboard ===== */
+.dash {
+  max-width: 1200px;
+  margin: 28px auto 48px;
+  padding: 0 18px;
+}
+
+.dash h1 {
+  font-weight: 900;
+  font-size: 42px;
+  letter-spacing: -.5px;
+  margin: 0 0 4px;
+}
+
+.dash p {
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+/* Welcome centrato */
+.dash--center .dash__intro {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block: clamp(16px, 6vh, 48px);
+}
+
+.dash--center .dash__intro h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  margin: 0 0 8px;
+  font-weight: 900;
+}
+
+.dash--center .dash__intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 18px);
+}
+
+/* ===== Cards ===== */
+/* Grid centrata: colonne a larghezza contenuta + centrate */
+.cards {
+  display: grid;
+  gap: 26px;
+}
+
+.dash--center .cards {
+  grid-template-columns: repeat(2, minmax(280px, 520px));
+  /* 2 card "compatte" */
+  justify-content: center;
+  /* centra la griglia */
+}
+
+@media (max-width: 800px) {
+  .dash--center .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  padding: 28px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  color: var(--white);
+  transform: translateY(0);
+  transition: transform .18s, box-shadow .18s, filter .18s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .14);
+  filter: saturate(1.06);
+}
+
+.card:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, .9);
+  outline-offset: 3px;
+}
+
+.card__title {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.card__cta {
+  align-self: flex-start;
+  margin-top: 16px;
+  background: var(--black);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.card--purple {
+  background: var(--purple);
+}
+
+.card--teal {
+  background: var(--teal);
+}
+
+.card--blue {
+  background: var(--blue);
+}
+
+.card--green {
+  background: var(--green);
+}
+
+/* ===== Buttons (riuso) ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #eaeaea;
+  color: #111;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary {
+  background: #111;
+  color: #fff;
+}
+
+.btn--danger {
+  background: #b32020;
+  color: #fff;
+}
+
+.btn--small {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/* ===== Tabelle & Form (come prima) ===== */
+.manage {
+  max-width: 1100px;
+  margin: 22px auto 48px;
+  padding: 0 18px;
+}
+
+.manage__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 6px 0 14px;
+}
+
+.table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.table thead th {
+  text-align: left;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.table tbody tr {
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+}
+
+.table__actions .btn {
+  margin-right: 8px;
+}
+
+.form {
+  max-width: 720px;
+  margin: 24px auto 60px;
+  padding: 0 18px;
+}
+
+.form h1 {
+  margin-bottom: 12px;
+}
+
+.form label {
+  display: block;
+  font-weight: 700;
+  margin: 14px 0 6px;
+}
+
+.form input[type="text"],
+.form input[type="url"],
+.form input[type="number"],
+.form input[type="datetime-local"],
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form__actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Helpers */
+.inline {
+  display: inline;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.center {
+  text-align: center;
+}
+
+/* NEW CODE*/
+/* --- Header: solo logo davvero centrato e cliccabile --- */
+.site-header__inner--solo {
+  grid-template-columns: 1fr;
+  /* da 3 colonne -> 1 colonna */
+  justify-items: center;
+  /* centra il brand nella colonna */
+}
+
+.site-header__inner--solo> :first-child {
+  display: none;
+}
+
+/* nasconde col sx */
+.site-header__inner--solo .site-header__actions {
+  display: none !important;
+}
+
+/* nasconde dx */
+.brand__logo {
+  cursor: pointer;
+}
+
+/* --- Welcome + sottotitolo centrati --- */
+.dash--center .dash__intro {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block: clamp(16px, 6vh, 48px);
+}
+
+/* --- Card container centrato, senza allungare le card --- */
+.dash--center .cards {
+  /* 2 card affiancate, larghezza massima per card 520px, griglia centrata */
+  grid-template-columns: repeat(2, minmax(300px, 520px));
+  justify-content: center;
+  /* centra la GRIGLIA dentro il container */
+  max-width: 1100px;
+  /* non andare a tutta pagina */
+  margin-inline: auto;
+  /* centra il container */
+  gap: 26px;
+}
+
+/* una sola colonna su schermi stretti */
+@media (max-width: 980px) {
+  .dash--center .cards {
+    grid-template-columns: minmax(300px, 520px);
+  }
+}
+
+/* --- Header: solo logo davvero centrato --- */
+.site-header__inner--solo {
+  grid-template-columns: 1fr;
+  /* da 3 colonne -> 1 */
+  justify-items: center;
+  /* centra il contenuto della griglia */
+}
+
+.site-header__inner--solo> :first-child {
+  display: none;
+}
+
+/* nasconde col sx */
+.site-header__inner--solo .site-header__actions {
+  display: none !important;
+}
+
+/* nasconde dx */
+.brand__logo {
+  cursor: pointer;
+}
+
+/* --- Welcome + sottotitolo centrati --- */
+.dash--center .dash__intro {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-block: clamp(16px, 6vh, 48px);
+}
+
+.dash--center .dash__intro h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1;
+  margin: 0 0 8px;
+  font-weight: 900;
+}
+
+.dash--center .dash__intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(16px, 2.2vw, 18px);
+}
+
+/* --- Card container centrato, card non allungate --- */
+.dash--center .cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 520px));
+  /* due card “compatte” */
+  justify-content: center;
+  /* centra la griglia */
+  gap: 26px;
+  margin-inline: auto;
+  /* centra il container */
+}
+
+@media (max-width: 980px) {
+  .dash--center .cards {
+    grid-template-columns: minmax(280px, 520px);
+  }
+}
+
+/* -- variante card centrata (orizzontale + verticale) -- */
+.card--center {
+  justify-content: center;
+  /* verticale */
+  align-items: center;
+  /* orizzontale */
+  text-align: center;
+  gap: 16px;
+}
+
+.card--center .card__cta {
+  align-self: center;
+  /* override del flex-start */
+}
+
+/* Sfondo pagina Welcome Admin (override forte) */
+body.admin.admin-welcome {
+  background:
+    linear-gradient(to bottom, rgba(246, 242, 234, .78), rgba(246, 242, 234, .78)),
+    url("/img/bg/evento1.jpg") center top / cover no-repeat fixed !important;
+}
+
+@media (max-width: 800px) {
+  body.admin.admin-welcome {
+    background-attachment: scroll;
+  }
+}

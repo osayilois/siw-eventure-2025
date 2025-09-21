@@ -1,0 +1,243 @@
+/* ===========================
+   Gestione Eventi (Admin)
+   – stile dedicato alla pagina admin-eventi.html
+   =========================== */
+
+/* ===== Header della pagina gestione: usa il site-header condiviso ===== */
+.admin-manage .site-header {
+    --hdrH: 60px;
+    padding: 0;
+}
+
+.admin-manage .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    /* sx | centro | dx */
+    align-items: center;
+    min-height: var(--hdrH);
+    padding: 0 16px;
+}
+
+.admin-manage .site-header__brand {
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-manage .site-header__actions {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-manage .brand__logo {
+    height: 32px;
+    display: block;
+    /* regola qui la dimensione del logo */
+}
+
+/* Spazio sotto l’header */
+.admin-manage .manage {
+    margin: 20px auto 60px;
+}
+
+/* ------- TESTATA: titolo + strumenti ------- */
+.manage__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 6px 0 16px;
+}
+
+.manage__head h1 {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(28px, 3.6vw, 40px);
+    letter-spacing: -.3px;
+}
+
+/* ------- TOOLBAR (search + nuovo) ------- */
+.manage__tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Searchbar chip-style */
+.searchbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: 999px;
+    padding: 6px 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.searchbar input[type="search"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    width: min(46vw, 300px);
+    padding: 6px 8px;
+    font: inherit;
+}
+
+.searchbar button,
+.searchbar a {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 10px;
+    line-height: 1;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.searchbar button:hover,
+.searchbar a:hover {
+    background: rgba(0, 0, 0, .06);
+}
+
+/* Pulsante “Nuovo evento” (riusa le tue classi base) */
+.manage__tools .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    background: var(--black);
+    color: #fff;
+    box-shadow: var(--shadow-sm);
+}
+
+.manage__tools .btn:hover {
+    filter: brightness(1.06);
+}
+
+/* ------- COUNTER ------- */
+.manage__count {
+    margin: 0 0 8px;
+    color: var(--muted);
+}
+
+/* ------- TABELLA “CARD” ------- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+thead th {
+    text-align: left;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 6px 10px;
+}
+
+tbody tr {
+    background: #fff;
+    box-shadow: var(--shadow-sm);
+    border-radius: 14px;
+}
+
+tbody td {
+    padding: 14px 16px;
+    border-top: 1px solid rgba(0, 0, 0, .04);
+}
+
+tbody td:first-child {
+    border-top-left-radius: 14px;
+}
+
+tbody td:last-child {
+    border-top-right-radius: 14px;
+}
+
+.col-title strong {
+    font-weight: 800;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Azioni: trasformo link e button in “chip” */
+tbody tr td:last-child a,
+tbody tr td:last-child button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    margin-left: 6px;
+    background: #111;
+    color: #fff;
+    /* Modifica */
+}
+
+tbody tr td:last-child a:hover {
+    filter: brightness(1.06);
+}
+
+tbody tr td:last-child form button {
+    background: #b32020;
+    color: #fff;
+    /* Elimina */
+}
+
+tbody tr td:last-child form button:hover {
+    filter: brightness(1.06);
+}
+
+/* Stato vuoto */
+tbody tr td em {
+    display: block;
+    text-align: center;
+    color: var(--muted);
+    padding: 22px 0;
+    font-style: normal;
+    font-weight: 600;
+}
+
+/* ------- RESPONSIVE ------- */
+@media (max-width: 860px) {
+    .manage__head {
+        align-items: flex-start;
+    }
+
+    .manage__tools {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .searchbar input[type="search"] {
+        width: min(60vw, 220px);
+    }
+}
+
+@media (max-width: 680px) {
+    .table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 720px;
+    }
+
+    /* abilita scroll orizzontale se stringe troppo */
+}

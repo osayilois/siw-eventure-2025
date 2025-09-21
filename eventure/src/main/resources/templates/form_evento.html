@@ -2,65 +2,109 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
 
 <head>
-  <meta charset="UTF-8">
-  <title th:text="${titoloPagina} ?: 'Evento'">Evento</title>
+  <meta charset="UTF-8" />
+  <title th:text="${titoloPagina != null ? titoloPagina : (evento.id != null ? 'Modifica Evento' : 'Nuovo Evento')}">
+    Evento
+  </title>
+  <link rel="stylesheet" th:href="@{/css/admin.css}" />
+  <link rel="stylesheet" th:href="@{/css/form-evento.css}" />
 </head>
 
-<body>
+<body class="admin admin-form">
 
-  <!-- Header -->
-  <header>
-    <a th:href="@{/admin}">← Dashboard Admin</a>
-    &nbsp;|&nbsp;
-    <a th:href="@{/home}"><strong>Eventure</strong></a>
+  <!-- Header super semplice -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div></div>
+      <div class="site-header__brand">
+        <a th:href="@{/home}" aria-label="Eventure">
+          <img th:src="@{/img/brand/eventure-logo-light.png}" alt="Eventure" class="brand__logo">
+        </a>
+      </div>
+      <nav class="site-header__actions">
+        <a class="btn-chip" th:href="@{/admin}">Dashboard</a>
+      </nav>
+    </div>
   </header>
 
-  <h1 th:text="${titoloPagina} ?: (${evento.id != null} ? 'Modifica Evento' : 'Nuovo Evento')">Evento</h1>
+  <main class="form-shell">
+    <section class="form-card">
+      <div class="form-card__head">
+        <h1 class="form-card__title"
+          th:text="${titoloPagina != null ? titoloPagina : (evento.id != null ? 'Modifica Evento' : 'Crea un nuovo evento')}">
+          Crea un nuovo evento
+        </h1>
+        <p class="form-card__subtitle">Compila i campi e salva.</p>
+      </div>
 
-  <form th:action="@{${formAction}}" th:object="${evento}" method="post">
-    <!-- CSRF -->
-    <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-    <label>Titolo:</label><br>
-    <input type="text" th:field="*{titolo}" required /><br>
+      <form class="form-fields" th:action="@{${formAction}}" th:object="${evento}" method="post">
+        <!-- CSRF -->
+        <input th:if="${_csrf != null}" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-    <label>Descrizione:</label><br>
-    <textarea th:field="*{descrizione}" required></textarea><br><br>
+        <div class="field">
+          <label for="titolo">Titolo</label>
+          <input id="titolo" type="text" th:field="*{titolo}" required>
+        </div>
 
-    <label>Città:</label><br>
-    <input type="text" th:field="*{citta}" required /><br><br>
+        <div class="field">
+          <label for="descrizione">Descrizione</label>
+          <textarea id="descrizione" th:field="*{descrizione}" required></textarea>
+        </div>
 
-    <label>Indirizzo:</label><br>
-    <input type="text" th:field="*{indirizzo}" /><br><br>
+        <div class="form-row">
+          <div class="field">
+            <label for="citta">Città</label>
+            <input id="citta" type="text" th:field="*{citta}" required>
+          </div>
+          <div class="field">
+            <label for="indirizzo">Indirizzo</label>
+            <input id="indirizzo" type="text" th:field="*{indirizzo}">
+          </div>
+        </div>
 
-    <label>Data e ora:</label><br>
-    <input type="datetime-local" th:field="*{dataOra}" required /><br><br>
+        <div class="form-row">
+          <div class="field">
+            <label for="dataOra">Data e ora</label>
+            <input id="dataOra" type="datetime-local" th:field="*{dataOra}" required>
+          </div>
+          <div class="field">
+            <label for="categoria">Categoria</label>
+            <select id="categoria" th:field="*{categoria}" required>
+              <option value="" disabled th:selected="${#strings.isEmpty(evento.categoria)}">Seleziona…</option>
+              <option th:each="c : ${categorie}" th:value="${c}" th:text="${c}">Categoria</option>
+            </select>
+          </div>
+        </div>
 
-    <!-- Categoria selezionabile -->
-    <label>Categoria:</label><br>
-    <select th:field="*{categoria}" required>
-      <option value="" disabled th:selected="${#strings.isEmpty(evento.categoria)}">Seleziona…</option>
-      <option th:each="c : ${categorie}" th:value="${c}" th:text="${c}">Categoria</option>
-    </select><br><br>
+        <div class="form-row">
+          <div class="field">
+            <label for="prezzo">Prezzo (€)</label>
+            <input id="prezzo" type="number" step="0.01" min="0" th:field="*{prezzo}">
+          </div>
+          <div class="field">
+            <label for="postiDisponibili">Posti disponibili</label>
+            <input id="postiDisponibili" type="number" min="0" th:field="*{postiDisponibili}">
+          </div>
+        </div>
 
-    <label>Prezzo (€):</label><br>
-    <input type="number" step="0.01" min="0" th:field="*{prezzo}" /><br><br>
+        <div class="field">
+          <label for="imageUrl">URL immagine</label>
+          <input id="imageUrl" type="url" th:field="*{imageUrl}" placeholder="https://...">
+        </div>
 
-    <label>In evidenza:</label>
-    <input type="checkbox" th:field="*{featured}" /><br><br>
+        <div class="field field--inline">
+          <input id="featured" type="checkbox" th:field="*{featured}">
+          <label class="label-inline" for="featured">Mostra in evidenza</label>
+        </div>
 
-    <label>Posti disponibili:</label><br>
-    <input type="number" min="0" th:field="*{postiDisponibili}" /><br><br>
-
-    <label>URL immagine:</label><br>
-    <input type="url" th:field="*{imageUrl}" placeholder="https://..." /><br><br>
-
-    <button type="submit">Salva</button>
-  </form>
-
-  <p>
-    <a th:href="@{/admin/home}">⬅ Torna alla lista</a>
-  </p>
+        <div class="form-actions">
+          <a class="btn btn--ghost" th:href="@{/admin}">Annulla</a>
+          <button type="submit" class="btn btn--primary">Salva</button>
+        </div>
+      </form>
+    </section>
+  </main>
 </body>
 
 </html>

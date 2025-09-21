@@ -1,0 +1,196 @@
+/* ========= FORM EVENTO (solo questa pagina) ========= */
+
+/* Velo chiaro sopra lo sfondo globale (resta nel tuo tema) */
+body.admin.admin-form {
+    background-image:
+        linear-gradient(to bottom, rgba(246, 242, 234, .92), rgba(246, 242, 234, .92));
+}
+
+/* Contenitore centrale */
+.form-shell {
+    min-height: calc(100dvh - 100px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(20px, 5vw, 48px) 16px 96px;
+    /* <-- spazio extra in basso */
+}
+
+/* Card principale */
+.form-card {
+    width: min(900px, 96vw);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, .94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, .12), var(--shadow);
+    padding: clamp(20px, 3vw, 32px);
+    margin-bottom: 24px;
+}
+
+/* Intestazione card */
+.form-card__head {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.form-card__title {
+    margin: 6px 0 6px;
+    font-size: clamp(26px, 3.4vw, 38px);
+    font-weight: 900;
+    letter-spacing: -.3px;
+}
+
+.form-card__subtitle {
+    margin: 0 0 8px;
+    color: var(--muted);
+}
+
+.form-card__subtitle a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+/* Campi */
+.form-fields {
+    margin-top: 8px;
+}
+
+.field {
+    margin: 14px 0;
+}
+
+.field label {
+    display: block;
+    font-weight: 700;
+    margin: 0 0 6px;
+}
+
+.label-inline {
+    margin-left: 8px;
+    font-weight: 600;
+}
+
+/* Input / Select / Textarea (senza dover aggiungere classi a ogni tag) */
+.form-card input[type="text"],
+.form-card input[type="url"],
+.form-card input[type="number"],
+.form-card input[type="datetime-local"],
+.form-card textarea,
+.form-card select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 18px;
+    border: 1px solid rgba(0, 0, 0, .08);
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .04), var(--shadow-sm);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    font: inherit;
+}
+
+.form-card textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus {
+    outline: none;
+    border-color: rgba(6, 56, 90, .35);
+    /* blu notte soft */
+    box-shadow: 0 0 0 4px rgba(6, 56, 90, .08), var(--shadow-sm);
+}
+
+/* Due colonne responsive */
+.form-row {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Checkbox inline */
+.field--inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.field--inline input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+/* Azioni (bottoni del tuo progetto) */
+.form-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn--ghost {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid rgba(0, 0, 0, .12);
+}
+
+.btn--ghost:hover {
+    background: #f8f8f8;
+}
+
+.btn--primary {
+    background: var(--black);
+    color: #fff;
+}
+
+.btn--primary:hover {
+    filter: brightness(1.06);
+}
+
+/* ===== Header del form: usa il site-header condiviso e forzalo centrato ===== */
+.admin-form .site-header {
+    --hdrH: 60px;
+    /* stessa altezza ovunque */
+    padding: 0;
+}
+
+.admin-form .site-header__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    /* sx | centro | dx */
+    align-items: center;
+    min-height: var(--hdrH);
+    padding: 0 16px;
+}
+
+.admin-form .site-header__brand {
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-form .site-header__actions {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-form .brand__logo {
+    height: 32px;
+    display: block;
+    /* regola la misura del logo qui */
+}
+
+/* IMPORTANTISSIMO: elimina qualsiasi regola che usi
+   .admin-form > header a:first-of-type / a:last-of-type o
+   .admin-form > header a:last-of-type strong
+   (non corrispondono al tuo markup e spaccano l’header) */
