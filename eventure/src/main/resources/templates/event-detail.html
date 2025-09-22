@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${evento.titolo} + ' | Eventure'">Evento</title>
+</head>
+
+<body>
+
+    <header>
+        <a th:href="@{/}">Eventure</a> | <a th:href="@{/eventi}">Eventi</a>
+        <hr />
+    </header>
+
+    <!-- Immagine evento -->
+    <section>
+        <div th:if="${evento.imageUrl != null and !#strings.isEmpty(evento.imageUrl)}">
+            <img th:src="${evento.imageUrl}" alt="Immagine evento"
+                style="width:100%;max-height:380px;object-fit:cover;">
+        </div>
+        <div th:if="${evento.imageUrl == null or #strings.isEmpty(evento.imageUrl)}"
+            style="width:100%;height:220px;background:#eee;display:flex;align-items:center;justify-content:center;">
+            <span>Nessuna immagine disponibile</span>
+        </div>
+    </section>
+
+    <main style="max-width:900px;margin:2rem auto;">
+        <div th:if="${successMessage != null}"
+            style="padding:.75rem 1rem;border:1px solid #4caf50;background:#e8f5e9;margin-bottom:1rem;">
+            <span th:text="${successMessage}">Prenotazione effettuata con successo!</span>
+        </div>
+
+        <h1 th:text="${evento.titolo}">Titolo evento</h1>
+        <p th:text="${evento.descrizione}">Descrizione...</p>
+
+        <h3>Dettagli</h3>
+        <ul>
+            <li><strong>Quando:</strong><!-- formato italiano: 22/09/2025 15:00 -->
+                <!-- lunedì 22 settembre 2025, 15:00 -->
+                <span th:text="${#temporals.format(evento.dataOra, 'EEEE d MMMM yyyy, HH:mm', #locale)}"></span>
+            </li>
+            <li><strong>Città:</strong> <span th:text="${evento.citta}">—</span></li>
+            <li><strong>Indirizzo:</strong> <span th:text="${evento.indirizzo}">—</span></li>
+            <li><strong>Categoria:</strong> <span th:text="${evento.categoria}">—</span></li>
+            <li><strong>Prezzo:</strong> <span th:text="${evento.prezzo}">0.0</span> €</li>
+            <li><strong>Posti disponibili:</strong> <span th:text="${evento.postiDisponibili}">0</span></li>
+        </ul>
+
+        <!-- Utente LOGGATO -->
+        <div th:if="${isAuthenticated}">
+            <form th:action="@{|/eventi/${evento.id}/prenota|}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="submit">Prenota biglietti</button>
+            </form>
+        </div>
+
+        <!-- Utente ANONIMO -->
+        <div th:if="${!isAuthenticated}">
+            <a th:href="@{|/login?redirect=/eventi/${evento.id}|}">Accedi per prenotare</a>
+        </div>
+    </main>
+
+    <footer>
+        <hr />
+        <p>© Eventure</p>
+    </footer>
+</body>
+
+</html>

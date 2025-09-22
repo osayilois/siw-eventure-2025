@@ -4,24 +4,27 @@
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="it">
+
 <head>
   <meta charset="UTF-8">
   <title>Eventure - Gestione Eventi</title>
 </head>
+
 <body>
   <!-- Header -->
-    <header th:replace="~{fragments/header :: header}"></header>
-    
+  <header th:replace="~{fragments/header :: header_full}"></header>
+
   <h1>Eventi (public)</h1>
 
   <ul>
-    <li th:each="evento : ${eventi}">
-      <b th:text="${evento.titolo}">Titolo</b> —
-      <span th:text="${evento.citta}">Città</span> —
-      <span th:text="${#temporals.format(evento.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span> —
-      <span th:text="${evento.categoria}">Categoria</span> —
-      <span th:text="${evento.prezzo}">Prezzo</span> €
+    <li th:each="e : ${eventi}">
+      <a th:href="@{|/eventi/${e.id}|}" th:text="${e.titolo}" style="font-weight:bold">Titolo</a>
+      — <span th:text="${e.citta}">Città</span>
+      — <span th:text="${#temporals.format(evento.dataOra, 'EEEE d MMMM yyyy, HH:mm', #locale)}"></span>
+      — <span th:text="${e.categoria}">Categoria</span>
+      — <span th:text="${e.prezzo}">0.0</span> €
     </li>
   </ul>
 </body>
+
 </html>
