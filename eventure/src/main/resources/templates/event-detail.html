@@ -2,6 +2,9 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <!-- CSS globali -->
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+
     <meta charset="UTF-8" />
     <title th:text="${evento.titolo} + ' | Eventure'">Evento</title>
 </head>
@@ -60,11 +63,7 @@
             <a th:href="@{|/login?redirect=/eventi/${evento.id}|}">Accedi per prenotare</a>
         </div>
     </main>
-
-    <footer>
-        <hr />
-        <p>© Eventure</p>
-    </footer>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 
 </html>

@@ -2,6 +2,10 @@
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
+    <!-- CSS globali -->
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+
     <meta charset="utf-8" />
     <title>Account</title>
 </head>
@@ -34,7 +38,7 @@
         <h3>Preferiti</h3>
         <p>Nessun preferito (placeholder).</p>
     </section>
-
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 
 </html>

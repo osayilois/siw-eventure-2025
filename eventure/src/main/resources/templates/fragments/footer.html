@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <footer th:fragment="footer">
-      <div class="container footer-inner">
-        <p>© 2025 Eventure — Built with ❤️ by Osayi</p>
-        <nav class="footer-nav">
-          <a th:href="@{/}">Home</a> ·
-          <a th:href="@{/eventi}">Eventi</a> ·
-          <a href="#">Contatti</a>
-        </nav>
-      </div>
-    </footer>
-  </body>
-</html>
+<footer th:fragment="footer" class="site-footer">
+  <div class="footer-inner">
+    <p>© <span th:text="${T(java.time.Year).now().getValue()}">2025</span>
+      Eventure — Built with ❤️ by Osayi</p>
+    <nav class="footer-nav">
+      <a th:href="@{/}">Home</a> ·
+      <a th:href="@{/eventi}">Eventi</a>
+    </nav>
+  </div>
+</footer>

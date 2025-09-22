@@ -8,6 +8,8 @@
   <!-- CSS globali -->
   <link rel="stylesheet" th:href="@{/css/fonts.css}" />
   <link rel="stylesheet" th:href="@{/css/base.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}">
+
 
   <!-- CSS pagina home-->
   <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -80,6 +82,7 @@
       </section>
     </div>
   </main>
+  <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 
 </html>
