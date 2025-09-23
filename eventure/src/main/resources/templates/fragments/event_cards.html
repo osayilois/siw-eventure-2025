@@ -1,50 +1,93 @@
 <!-- templates/fragments/event_cards.html -->
 
-<!-- Card banner grande: titolo + data (it) + prezzo -->
-<article th:fragment="event_banner(e)" class="card card--banner">
-    <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
-        <img class="card__img" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}" th:src="${e.imageUrl}"
-            th:alt="${e.titolo}">
-        <img class="card__img" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}"
-            th:src="@{/img/placeholder.jpg}" alt="Nessuna immagine disponibile">
+<!-- Card "banner" per evidenza (stile uguale a Eventi) -->
+<div th:fragment="event_banner(e)">
+    <article class="event-card h-100 shadow-sm">
+        <a th:href="@{|/eventi/${e.id}|}" class="ratio ratio-16x9 event-thumb-link"
+            th:aria-label="${'Vai a ' + e.titolo}">
+            <img class="event-thumb" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}"
+                th:src="${e.imageUrl}" th:alt="${e.titolo}">
+            <div class="event-thumb placeholder" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}">
+                <i class="bi bi-image"></i>
+            </div>
+        </a>
 
-        <div class="card__body">
-            <h3 class="card__title" th:text="${e.titolo}">Titolo</h3>
+        <div class="p-3 d-flex flex-column">
+            <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                <h3 class="h5 mb-0">
+                    <a th:href="@{|/eventi/${e.id}|}" th:text="${e.titolo}">Titolo evento</a>
+                </h3>
+                <span class="badge text-bg-dark-subtle border fw-normal" th:text="${e.categoria}">Categoria</span>
+            </div>
 
-            <!-- es: venerdì 2 settembre 15:30 -->
-            <p class="card__text"
-                th:text="${e.dataOra != null ? #strings.toLowerCase(#temporals.format(e.dataOra, 'EEEE d MMMM HH:mm', T(java.util.Locale).ITALIAN)) : ''}">
-                venerdì 2 settembre 15:30
-            </p>
+            <ul class="list-unstyled small text-muted mb-3">
+                <li><i class="bi bi-geo-alt"></i> <span th:text="${e.citta}">Città</span></li>
+                <li><i class="bi bi-calendar-event"></i>
+                    <span th:text="${#temporals.format(e.dataOra, 'EEEE d MMMM yyyy, HH:mm', #locale)}">data</span>
+                </li>
+                <li th:if="${e.indirizzo != null and !#strings.isEmpty(e.indirizzo)}">
+                    <i class="bi bi-pin-map"></i> <span th:text="${e.indirizzo}">Indirizzo</span>
+                </li>
+            </ul>
 
-            <p class="card__price"
-                th:text="${e.prezzo == 0.0 ? 'Gratuito' : #numbers.formatDecimal(e.prezzo, 1, 2) + ' €'}">
-                Prezzo
-            </p>
+            <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div class="price fw-semibold">
+                    <span th:if="${e.prezzo == 0.0}">Gratuito</span>
+                    <span th:if="${e.prezzo != 0.0}">
+                        <i class="bi bi-currency-euro"></i>
+                        <span th:text="${#numbers.formatDecimal(e.prezzo, 1, 'COMMA', 2, 'POINT')}">0,00</span>
+                    </span>
+                </div>
+                <a class="btn btn-outline-dark btn-sm" th:href="@{|/eventi/${e.id}|}">
+                    Dettagli <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
         </div>
-    </a>
-</article>
+    </article>
+</div>
 
-<!-- Card compatta: titolo + data (it) + prezzo -->
-<article th:fragment="event_card(e)" class="card card--small">
-    <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
-        <img class="card__img" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}" th:src="${e.imageUrl}"
-            th:alt="${e.titolo}">
-        <img class="card__img" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}"
-            th:src="@{/img/placeholder.jpg}" alt="Nessuna immagine disponibile">
+<!-- Card “compatta” (stesso stile; cambia solo la gerarchia del titolo) -->
+<div th:fragment="event_card(e)">
+    <article class="event-card h-100 shadow-sm">
+        <a th:href="@{|/eventi/${e.id}|}" class="ratio ratio-16x9 event-thumb-link"
+            th:aria-label="${'Vai a ' + e.titolo}">
+            <img class="event-thumb" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}"
+                th:src="${e.imageUrl}" th:alt="${e.titolo}">
+            <div class="event-thumb placeholder" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}">
+                <i class="bi bi-image"></i>
+            </div>
+        </a>
 
-        <div class="card__body">
-            <h4 class="card__title" th:text="${e.titolo}">Titolo</h4>
+        <div class="p-3 d-flex flex-column">
+            <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                <h4 class="h5 mb-0">
+                    <a th:href="@{|/eventi/${e.id}|}" th:text="${e.titolo}">Titolo evento</a>
+                </h4>
+                <span class="badge text-bg-dark-subtle border fw-normal" th:text="${e.categoria}">Categoria</span>
+            </div>
 
-            <p class="card__text"
-                th:text="${e.dataOra != null ? #strings.toLowerCase(#temporals.format(e.dataOra, 'EEEE d MMMM HH:mm', T(java.util.Locale).ITALIAN)) : ''}">
-                venerdì 2 settembre 15:30
-            </p>
+            <ul class="list-unstyled small text-muted mb-3">
+                <li><i class="bi bi-geo-alt"></i> <span th:text="${e.citta}">Città</span></li>
+                <li><i class="bi bi-calendar-event"></i>
+                    <span th:text="${#temporals.format(e.dataOra, 'EEEE d MMMM yyyy, HH:mm', #locale)}">data</span>
+                </li>
+                <li th:if="${e.indirizzo != null and !#strings.isEmpty(e.indirizzo)}">
+                    <i class="bi bi-pin-map"></i> <span th:text="${e.indirizzo}">Indirizzo</span>
+                </li>
+            </ul>
 
-            <p class="card__price"
-                th:text="${e.prezzo == 0.0 ? 'Gratuito' : #numbers.formatDecimal(e.prezzo, 1, 2) + ' €'}">
-                Prezzo
-            </p>
+            <div class="mt-auto d-flex align-items-center justify-content-between">
+                <div class="price fw-semibold">
+                    <span th:if="${e.prezzo == 0.0}">Gratuito</span>
+                    <span th:if="${e.prezzo != 0.0}">
+                        <i class="bi bi-currency-euro"></i>
+                        <span th:text="${#numbers.formatDecimal(e.prezzo, 1, 'COMMA', 2, 'POINT')}">0,00</span>
+                    </span>
+                </div>
+                <a class="btn btn-outline-dark btn-sm" th:href="@{|/eventi/${e.id}|}">
+                    Dettagli <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
         </div>
-    </a>
-</article>
+    </article>
+</div>

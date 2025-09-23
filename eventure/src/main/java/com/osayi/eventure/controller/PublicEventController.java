@@ -1,3 +1,5 @@
+// PublicEventController.java
+
 // src/main/java/com/osayi/eventure/controller/PublicEventController.java
 package com.osayi.eventure.controller;
 
@@ -27,47 +29,29 @@ public class PublicEventController {
 
     /** LISTA /eventi */
     @GetMapping
-    public String listaEventi(
-            @RequestParam(name = "q", required = false) String q,
-            @RequestParam(name = "citta", required = false) String citta,
-            @RequestParam(name = "categoria", required = false) String categoria,
-            @RequestParam(name = "featured", required = false) Boolean featured,
-            @RequestParam(name = "gratis", required = false) Boolean gratis,
-            Model model) {
+public String listaEventi(
+        @RequestParam(name = "q", required = false) String q,
+        Model model) {
 
-        List<Event> tutti = eventRepository.findAll();
+    // normalizza input e congela in final per sicurezza
+    final String qv = (q == null || q.trim().isEmpty()) ? null : q.trim();
 
-        List<Event> evidenza = tutti.stream()
-                .filter(Objects::nonNull)
-                .filter(Event::isFeatured)
-                .sorted(Comparator.comparing(Event::getDataOra,
-                        Comparator.nullsLast(Comparator.reverseOrder())))
-                .limit(3)
-                .collect(Collectors.toList());
+    // base: se c’è query sul titolo → cerca; altrimenti tutti
+    List<Event> eventi = (qv != null)
+            ? eventRepository.findByTitoloContainingIgnoreCase(qv)
+            : eventRepository.findAll();
 
-        List<Event> eventiFiltrati = tutti.stream()
-                .filter(Objects::nonNull)
-                .filter(e -> filterByQuery(e, q))
-                .filter(e -> filterByCity(e, citta))
-                .filter(e -> filterByCategory(e, categoria))
-                .filter(e -> filterByFeatured(e, featured))
-                .filter(e -> filterByFree(e, gratis))
-                .sorted(Comparator.comparing(Event::getDataOra,
-                        Comparator.nullsLast(Comparator.naturalOrder())))
-                .collect(Collectors.toList());
+    // ordina per data crescente (null alla fine)
+    eventi.sort(Comparator.comparing(Event::getDataOra,
+            Comparator.nullsLast(Comparator.naturalOrder())));
 
-        model.addAttribute("evidenza", evidenza);
-        model.addAttribute("eventi", eventiFiltrati);
+    model.addAttribute("eventi", eventi);
+    model.addAttribute("q", q == null ? "" : q.trim());
+    model.addAttribute("count", eventi.size());
 
-        // mantieni i filtri nella view
-        model.addAttribute("q", q);
-        model.addAttribute("citta", citta);
-        model.addAttribute("categoria", categoria);
-        model.addAttribute("featured", featured);
-        model.addAttribute("gratis", gratis);
+    return "eventi";
+}
 
-        return "eventi";
-    }
 
     /** DETTAGLIO /eventi/{id} (+messaggio conferma) */
     @GetMapping("/{id}")

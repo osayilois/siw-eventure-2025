@@ -27,17 +27,20 @@ public class HomeController {
   Sort sort = Sort.by(Sort.Direction.ASC, "dataOra");
 
   // TOP 5 in evidenza
-  PageRequest top5 = PageRequest.of(0,5,sort);
-  List<Event> featuredTop5 = repo.findByFeaturedTrue(top5).getContent();
+  PageRequest top6 = PageRequest.of(0,6,sort);
+  List<Event> featuredTop6 = repo.findByFeaturedTrue(top6).getContent();
 
   // TOP 8 "altri eventi"
-  PageRequest top8 = PageRequest.of(0,8,sort);
-  List<Event> othersTop8 = repo.findByFeaturedFalse(top8).getContent();
+  PageRequest top9 = PageRequest.of(0,9,sort);
+  List<Event> othersTop9 = repo.findByFeaturedFalse(top9).getContent();
 
   // richiamo modelli
-  model.addAttribute("featuredTop5", featuredTop5);
-  model.addAttribute("othersTop8", othersTop8);
+  model.addAttribute("featuredTop6", featuredTop6);
+  model.addAttribute("othersTop9", othersTop9);
   model.addAttribute("titoloPagina", "Eventure");
+  // per searchbar
+  model.addAttribute("showHeaderSearch", true);
+
 
   return "home"; // home.html 
   }

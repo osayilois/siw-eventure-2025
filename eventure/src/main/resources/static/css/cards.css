@@ -1,0 +1,96 @@
+/* ===== Stile card evento condiviso (Home + Eventi) — tema chiaro ===== */
+:root {
+    --card-bg: #ffffff;
+    --ink: #111111;
+    --muted: #6c757d;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.16);
+}
+
+/* Contenitore */
+.event-card {
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    border-radius: .9rem;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+}
+
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+    border-color: var(--border-strong);
+}
+
+/* Immagine */
+.event-thumb-link {
+    display: block;
+}
+
+.event-thumb {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: .9rem;
+    border-top-right-radius: .9rem;
+}
+
+.event-thumb.placeholder {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, #f7f9fc, #f1f5f9);
+    border-bottom: 1px solid var(--border);
+    font-size: 2rem;
+    color: #9aa3af;
+}
+
+/* Titolo/link */
+.event-card .h5 a,
+.event-card h5 a,
+.event-card h4 a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.event-card .h5 a:hover,
+.event-card h5 a:hover,
+.event-card h4 a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+/* Badge categoria */
+.badge.text-bg-dark-subtle {
+    background: #f1f3f5 !important;
+    color: #343a40 !important;
+    border: 1px solid var(--border) !important;
+}
+
+/* Lista info */
+.event-card ul {
+    margin: 0;
+    padding: 0;
+}
+
+.event-card li {
+    margin: .15rem 0;
+    color: var(--muted);
+}
+
+.event-card li i {
+    margin-right: .35rem;
+}
+
+/* Prezzo e bottoni */
+.price {
+    font-size: 1.05rem;
+    color: var(--ink);
+}
+
+.btn-outline-dark {
+    --bs-btn-color: #212529;
+    --bs-btn-border-color: #adb5bd;
+    --bs-btn-hover-bg: #212529;
+    --bs-btn-hover-border-color: #212529;
+    --bs-btn-hover-color: #fff;
+}

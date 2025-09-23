@@ -3,6 +3,21 @@
 <th:block th:fragment="header_full">
   <header class="site-header">
     <div class="site-header__inner">
+
+
+      <!-- Search per eventi (non sposta nulla: è assoluta a sinistra) -->
+      <form th:if="${showHeaderSearch}" class="site-header__search header-search" th:action="@{/eventi}" method="get"
+        role="search" aria-label="Cerca eventi">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text" id="hdr-search-icon">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="search" class="form-control form-control-sm form-control--header" name="q"
+            placeholder="Cerca eventi…" aria-describedby="hdr-search-icon">
+        </div>
+      </form>
+
+
       <div></div>
 
       <div class="site-header__brand">

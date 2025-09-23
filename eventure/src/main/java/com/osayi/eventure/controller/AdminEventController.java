@@ -111,7 +111,12 @@ public class AdminEventController {
             "Awards Show",
             "Workshop",
             "Sport",
-            "Stand-up"
+            "Famiglia",
+            "Benessere",
+            "Arte",
+            "Cultura",
+            "Tecnologia",
+            "Cibo"
         );
     }
 }
