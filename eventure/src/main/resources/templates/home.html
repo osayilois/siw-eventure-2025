@@ -8,8 +8,7 @@
   <!-- CSS globali -->
   <link rel="stylesheet" th:href="@{/css/fonts.css}" />
   <link rel="stylesheet" th:href="@{/css/base.css}" />
-  <link rel="stylesheet" th:href="@{/css/footer.css}">
-
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
 
   <!-- CSS pagina home-->
   <link rel="stylesheet" th:href="@{/css/home.css}" />
@@ -18,19 +17,16 @@
 <body class="home">
 
   <!-- Header comune -->
-  <header th:replace="fragments/header :: header_full"></header>
+  <header th:replace="~{fragments/header :: header_full}"></header>
 
   <main>
     <!-- HERO: immagine d’impatto + logo + payoff -->
     <section class="impact">
       <figure class="impact__media">
-        <!-- Sostituisci hero.jpg con la tua immagine -->
         <img th:src="@{/img/hero.jpg}" alt="Persone che partecipano a un evento" />
       </figure>
 
       <div class="impact__overlay">
-
-        <!-- Payoff line centrale -->
         <h1 class="impact__title">
           Un <em class="accent">nuovo</em> modo di vivere gli eventi
         </h1>
@@ -38,50 +34,39 @@
     </section>
 
     <div class="container">
-      <!-- IN EVIDENZA -->
-      <section th:if="${featuredList != null and !#lists.isEmpty(featuredList)}" class="section">
+
+      <!-- TOP 5 "eventi in evidenza" -->
+      <section th:if="${featuredTop5 != null and !#lists.isEmpty(featuredTop5)}" class="section">
         <h2 class="section__title">Eventi in evidenza</h2>
+
         <div class="grid grid--featured">
-          <article class="card" th:each="e : ${featuredList}">
-            <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
-              <img class="card__img" th:src="${#strings.isEmpty(e.imageUrl) ? '/img/placeholder.jpg' : e.imageUrl}"
-                th:alt="${e.titolo}" />
-              <div class="card__body">
-                <h3 class="card__title" th:text="${e.titolo}">Titolo</h3>
-                <p class="card__text"
-                  th:text="${#strings.length(e.descrizione) > 120 ? #strings.substring(e.descrizione,0,120) + '…' : e.descrizione}">
-                  Descrizione...
-                </p>
-              </div>
-            </a>
-          </article>
+          <th:block th:each="ev : ${featuredTop5}">
+            <!-- PASSO il parametro 'e' al frammento -->
+            <th:block th:replace="~{fragments/event_cards :: event_banner(e=${ev})}"></th:block>
+          </th:block>
         </div>
       </section>
 
-      <!-- ALTRI EVENTI -->
+      <!-- TOP 8 "altri eventi" -->
       <section class="section">
         <h2 class="section__title">Altri eventi</h2>
 
-        <p class="empty" th:if="${#lists.isEmpty(altri)}"><em>Nessun altro evento al momento.</em></p>
+        <p class="empty" th:if="${#lists.isEmpty(othersTop8)}"><em>Nessun altro evento al momento.</em></p>
 
-        <div class="grid grid--events" th:if="${!#lists.isEmpty(altri)}">
-          <article class="card" th:each="e : ${altri}">
-            <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
-              <img class="card__img" th:src="${#strings.isEmpty(e.imageUrl) ? '/img/placeholder.jpg' : e.imageUrl}"
-                th:alt="${e.titolo}" />
-              <div class="card__body">
-                <h3 class="card__title" th:text="${e.titolo}">Titolo</h3>
-                <p class="card__text"
-                  th:text="${#strings.length(e.descrizione) > 120 ? #strings.substring(e.descrizione,0,120) + '…' : e.descrizione}">
-                  Descrizione...
-                </p>
-              </div>
-            </a>
-          </article>
+        <div class="grid grid--events" th:if="${!#lists.isEmpty(othersTop8)}">
+          <th:block th:each="ev : ${othersTop8}">
+            <!-- PASSO il parametro 'e' al frammento -->
+            <th:block th:replace="~{fragments/event_cards :: event_card(e=${ev})}"></th:block>
+          </th:block>
         </div>
       </section>
+
+
+
+
     </div>
   </main>
+
   <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 

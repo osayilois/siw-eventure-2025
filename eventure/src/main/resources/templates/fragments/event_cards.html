@@ -1,0 +1,50 @@
+<!-- templates/fragments/event_cards.html -->
+
+<!-- Card banner grande: titolo + data (it) + prezzo -->
+<article th:fragment="event_banner(e)" class="card card--banner">
+    <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
+        <img class="card__img" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}" th:src="${e.imageUrl}"
+            th:alt="${e.titolo}">
+        <img class="card__img" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}"
+            th:src="@{/img/placeholder.jpg}" alt="Nessuna immagine disponibile">
+
+        <div class="card__body">
+            <h3 class="card__title" th:text="${e.titolo}">Titolo</h3>
+
+            <!-- es: venerdì 2 settembre 15:30 -->
+            <p class="card__text"
+                th:text="${e.dataOra != null ? #strings.toLowerCase(#temporals.format(e.dataOra, 'EEEE d MMMM HH:mm', T(java.util.Locale).ITALIAN)) : ''}">
+                venerdì 2 settembre 15:30
+            </p>
+
+            <p class="card__price"
+                th:text="${e.prezzo == 0.0 ? 'Gratuito' : #numbers.formatDecimal(e.prezzo, 1, 2) + ' €'}">
+                Prezzo
+            </p>
+        </div>
+    </a>
+</article>
+
+<!-- Card compatta: titolo + data (it) + prezzo -->
+<article th:fragment="event_card(e)" class="card card--small">
+    <a class="card__link" th:href="@{|/eventi/${e.id}|}" th:aria-label="${'Vai a ' + e.titolo}">
+        <img class="card__img" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}" th:src="${e.imageUrl}"
+            th:alt="${e.titolo}">
+        <img class="card__img" th:if="${e.imageUrl == null or #strings.isEmpty(e.imageUrl)}"
+            th:src="@{/img/placeholder.jpg}" alt="Nessuna immagine disponibile">
+
+        <div class="card__body">
+            <h4 class="card__title" th:text="${e.titolo}">Titolo</h4>
+
+            <p class="card__text"
+                th:text="${e.dataOra != null ? #strings.toLowerCase(#temporals.format(e.dataOra, 'EEEE d MMMM HH:mm', T(java.util.Locale).ITALIAN)) : ''}">
+                venerdì 2 settembre 15:30
+            </p>
+
+            <p class="card__price"
+                th:text="${e.prezzo == 0.0 ? 'Gratuito' : #numbers.formatDecimal(e.prezzo, 1, 2) + ' €'}">
+                Prezzo
+            </p>
+        </div>
+    </a>
+</article>
