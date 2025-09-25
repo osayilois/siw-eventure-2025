@@ -1,0 +1,208 @@
+/* ===== Impostazioni account – Tema Eventure ===== */
+
+:root {
+    /* fallback se base.css non definisce queste var */
+    --brand-600: #0d6efd;
+    --brand-700: #0b5ed7;
+    --text-700: #1f2937;
+    --text-500: #6b7280;
+    --border: rgba(0, 0, 0, .08);
+    --surface: #fff;
+    --surface-muted: #f4f8ff;
+    /* azzurrino molto chiaro */
+    --shadow: 0 12px 28px rgba(0, 0, 0, .08);
+}
+
+/* Sfondo & tipografia */
+html,
+body {
+    margin: 0;
+}
+
+body {
+    font-family: var(--font-sans, "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif);
+    background: var(--surface-muted);
+    color: var(--text-700);
+}
+
+/* Header semplice (quello del tuo file) */
+body>header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(255, 255, 255, .85);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+}
+
+body>header a {
+    color: inherit;
+    text-decoration: none;
+}
+
+body>header a:hover {
+    text-decoration: underline;
+}
+
+body>header nav {
+    display: flex;
+    gap: 14px;
+}
+
+/* Contenuto centrale “tipo login/card” */
+h1 {
+    max-width: 960px;
+    margin: 22px auto 10px;
+    padding: 0 16px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.2rem);
+}
+
+/* Card principale */
+.settings-card {
+    max-width: 960px;
+    margin: 0 auto 56px;
+    padding: 22px 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+@media (min-width: 720px) {
+    .settings-card {
+        padding: 28px;
+    }
+}
+
+/* Testata utente (immagine + nome) */
+.settings-card>img[alt="avatar"] {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: block;
+    margin: 4px 0 14px;
+}
+
+/* Messaggi (div success/error senza classi) */
+.settings-card>div {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin: 0 0 14px;
+    font-weight: 500;
+}
+
+/* Heuristic: primo messaggio = success, secondo = error se presenti entrambi */
+.settings-card>div:nth-of-type(1) {
+    background: #e8f5e9;
+    border-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+.settings-card>div:nth-of-type(2) {
+    background: #fdecea;
+    border-color: #f5c2c7;
+    color: #842029;
+}
+
+/* Sezioni */
+section {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    background: #fff;
+    margin: 16px 0;
+}
+
+section h2 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: .1px;
+    color: var(--text-700);
+}
+
+/* Danger zone evidenziata (ultimo section) */
+section:last-of-type {
+    background: linear-gradient(0deg, rgba(220, 53, 69, .04), rgba(220, 53, 69, .04)), #fff;
+    border-color: rgba(220, 53, 69, .25);
+}
+
+/* Form */
+form {
+    display: grid;
+    gap: 12px;
+    max-width: 520px;
+}
+
+label {
+    font-size: .95rem;
+    color: var(--text-500);
+}
+
+input[type="password"],
+input[type="text"],
+input[type="email"] {
+    height: 42px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fff;
+    outline: none;
+    font: inherit;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+input::placeholder {
+    color: #9aa3af;
+}
+
+input:focus {
+    border-color: rgba(13, 110, 253, .45);
+    box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .15);
+}
+
+/* Bottoni */
+button {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .15s ease, box-shadow .15s ease, transform .02s ease;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+/* Primario = blu, Danger = rosso (rilevati da testo del bottone) */
+button[type="submit"] {
+    background: var(--brand-600);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(13, 110, 253, .22);
+}
+
+section:last-of-type button[type="submit"] {
+    background: #dc3545;
+    box-shadow: 0 8px 18px rgba(220, 53, 69, .22);
+}
+
+button:hover {
+    filter: brightness(.96);
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+}

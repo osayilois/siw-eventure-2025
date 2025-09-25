@@ -49,6 +49,12 @@
 
     <div class="container">
 
+      <div th:if="${favOk}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-heart-fill"></i> Aggiunto ai preferiti
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Chiudi"></button>
+      </div>
+
+
       <!-- ========== TOP 6 "EVENTI IN EVIDENZA" ========== -->
       <!-- ========== EVENTI IN EVIDENZA (3 per slide) ========== -->
       <section th:if="${featuredTop6 != null and !#lists.isEmpty(featuredTop6)}" class="section">

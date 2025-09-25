@@ -2,7 +2,8 @@
 
 <!-- Card "banner" per evidenza (stile uguale a Eventi) -->
 <div th:fragment="event_banner(e)">
-    <article class="event-card h-100 shadow-sm">
+    <article class="event-card h-100 shadow-sm" th:with="isFav=${favIds != null and favIds.contains(e.id)}">
+
         <a th:href="@{|/eventi/${e.id}|}" class="ratio ratio-16x9 event-thumb-link"
             th:aria-label="${'Vai a ' + e.titolo}">
             <img class="event-thumb" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}"
@@ -11,6 +12,16 @@
                 <i class="bi bi-image"></i>
             </div>
         </a>
+
+        <!-- preferiti -->
+
+        <form class="fav-form" th:action="@{|/preferiti/${e.id}/aggiungi|}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn fav-btn" th:classappend="${isFav} ? ' is-fav' : ''"
+                th:title="${isFav} ? 'Nei preferiti' : 'Aggiungi ai preferiti'" th:attr="aria-pressed=${isFav}">
+                <i th:class="${isFav} ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+            </button>
+        </form>
 
         <div class="p-3 d-flex flex-column">
             <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
@@ -48,7 +59,8 @@
 
 <!-- Card “compatta” (stesso stile; cambia solo la gerarchia del titolo) -->
 <div th:fragment="event_card(e)">
-    <article class="event-card h-100 shadow-sm">
+    <article class="event-card h-100 shadow-sm" th:with="isFav=${favIds != null and favIds.contains(e.id)}">
+
         <a th:href="@{|/eventi/${e.id}|}" class="ratio ratio-16x9 event-thumb-link"
             th:aria-label="${'Vai a ' + e.titolo}">
             <img class="event-thumb" th:if="${e.imageUrl != null and !#strings.isEmpty(e.imageUrl)}"
@@ -57,6 +69,15 @@
                 <i class="bi bi-image"></i>
             </div>
         </a>
+
+        <!-- ♥ Preferiti -->
+        <form class="fav-form" th:action="@{|/preferiti/${e.id}/aggiungi|}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn fav-btn" th:classappend="${isFav} ? ' is-fav' : ''"
+                th:title="${isFav} ? 'Nei preferiti' : 'Aggiungi ai preferiti'" th:attr="aria-pressed=${isFav}">
+                <i th:class="${isFav} ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+            </button>
+        </form>
 
         <div class="p-3 d-flex flex-column">
             <div class="d-flex align-items-start justify-content-between gap-2 mb-2">

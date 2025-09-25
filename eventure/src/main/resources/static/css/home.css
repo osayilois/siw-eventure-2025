@@ -379,3 +379,76 @@ body {
 .see-all-link:hover {
   color: #0d6efd !important;
 }
+
+/* Overlay cuore nelle card */
+.card {
+  position: relative;
+}
+
+/* le tue card l'hanno già: ribadiamo */
+.fav-form {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.fav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .95);
+  border: 1px solid rgba(0, 0, 0, .12);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.fav-btn:hover {
+  background: #fff;
+}
+
+.fav-btn i {
+  font-size: 1.05rem;
+}
+
+/* Cuore rosso quando è nei preferiti */
+.event-card {
+  position: relative;
+}
+
+.fav-form {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+}
+
+.fav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .95);
+  border: 1px solid rgba(0, 0, 0, .12);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.fav-btn i {
+  font-size: 1.05rem;
+  transition: transform .12s ease;
+}
+
+.fav-btn:hover i {
+  transform: scale(1.06);
+}
+
+/* Stato preferito */
+.fav-btn.is-fav i {
+  color: #dc3545;
+}
+
+/* rosso Bootstrap (danger) */
