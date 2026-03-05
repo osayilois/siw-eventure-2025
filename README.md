@@ -41,6 +41,6 @@ Domain models → represent core entities (User, Event, etc.)
 Role-based authorization ensures that users interact with the system according to their permissions.
 
 ## 📸 Screenshots
-<img src="screenshots/home_page.jpeg" width="400"/>
-<img src="screenshots/event_cards.jpeg" width="400"/>
-<img src="screenshots/event.jpeg" width="400"/>
+<img src="screenshots/home_page.png" width="400"/>
+<img src="screenshots/event_cards.png" width="400"/>
+<img src="screenshots/event.png" width="400"/>
